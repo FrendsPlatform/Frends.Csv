@@ -12,9 +12,9 @@
      - [Csv.Create](#csv.create)
        - [Input](#input)
        - [Options](#options)
-       - [Example usage](#example-usage)
        - [Result](#result)
-       
+   - [License](#license)
+          
 # Frends.Csv
 RENDS Tasks to process CSV files.
 
@@ -120,3 +120,6 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 | Property/Method      | Type                 | Description                          |
 | ---------------------| ---------------------| ------------------------------------ |
 | Csv                  | string               | Resulting csv string                 |
+
+## License
+This project is licensed under the MIT License - see the LICENSE file for details
