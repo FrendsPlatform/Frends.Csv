@@ -84,7 +84,7 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 
 #### Example usage
 
-![CsvParseUsage.png](https://bitbucket.org/repo/xKXeyR/images/1591752149-CsvParseUsage.png)
+![CsvParseUsage.png](https://cloud.githubusercontent.com/assets/6636662/26401185/54d7b5f8-408d-11e7-9c07-327e22cd0efc.png)
 
 #### Result
 
@@ -114,8 +114,6 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 | ---------------------| ---------------------| ------------------------------------ |
 | IncludeHeaderRow     | bool                 | This flag tells the writer if a header row should be written. |  
 | CultureInfo          | string               | The culture info to write the file with, e.g. for decimal separators. InvariantCulture will be used by default. See list of cultures [here](https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx); use the Language Culture Name. <br> NOTE: Due to an issue with the CsvHelpers library, all CSV tasks will use the culture info setting of the first CSV task in the process; you cannot use different cultures for reading and parsing CSV files in the same process. |  
-
-#### Example usage
 
 #### Result
 
