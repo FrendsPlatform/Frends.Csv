@@ -1,0 +1,10 @@
+﻿{
+  "Tasks": [
+    {
+      "TaskMethod": "Frends.Csv.Csv.Parse"
+    },
+    {
+      "TaskMethod": "Frends.Csv.Csv.Create"
+    }
+  ]
+}
