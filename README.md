@@ -16,7 +16,7 @@
    - [License](#license)
           
 # Frends.Csv
-RENDS Tasks to process CSV files.
+FRENDS Tasks to process CSV files.
 
 ## Installing
 You can install the task via FRENDS UI Task View or you can find the nuget package from the following nuget feed
