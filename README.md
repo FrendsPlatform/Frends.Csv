@@ -64,7 +64,7 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 | ---------------------| ---------------------| ------------------------------------ |
 | Csv                  | string               | Input csv as a string                                                                    |          
 | Delimiter            | string               | The separator used in the csv string                                                     |
-| ColumnSpecifications | ColumnSpecification[]| Used for mapping csv columns into types. The order of the columns are used for mapping.  |
+| ColumnSpecifications | ColumnSpecification[]| Used for mapping csv columns into types. The order of the columns are used for mapping. This is optional and if you dont need to parse the csv elements into known types.  |
 
 ##### ColumnSpecification
 | Property             | Type                 | Description                          |
@@ -102,7 +102,7 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 
 | Property             | Type                 | Description                          | Example   |
 | ---------------------| ---------------------| ------------------------------------ |-----------|
-| InputType            | Enum { List, Json }  | Input csv as a string                |           |
+| InputType            | Enum { List, Json }  | Select input type                |           |
 | Json                 | string               | If InputType is Json this field will be visible and used. Input needs to be an Array of Objects | `[ {"Header1": "Value1", "Header2": "Value2"}, {"Header1": "Other1", "Header2": "Other2"} ]` 
 | Headers              | List<string>         | If inputType is List this field will be visible and used. Headers for the Data. Need to be in the same order as the underlying Data | `new List<string> {"Header1", "Header2"}` |
 | Data                 | List<List<object>>   | If inputType is List this field will be visible and used. The order of the nested list objects need to be in the same order as the header list. | `new List<List<object>>() { new List<object> {"Value1", "Value2"}, new List<object> {"Other1", "Other2"}`|
