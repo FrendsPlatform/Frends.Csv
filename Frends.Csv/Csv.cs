@@ -15,7 +15,7 @@ namespace Frends.Csv
     public class Csv
     {
         /// <summary>
-        /// Parse string csv content to a object.
+        /// Parse string csv content to a object. See https://github.com/FrendsPlatform/Frends.Csv
         /// </summary>
         /// <returns>Object { List&lt;List&lt;object&gt;&gt; Data, List&lt;string&gt; Headers, JToken ToJson(), string ToXml() } </returns>
         public static ParseResult Parse([CustomDisplay(DisplayOption.Tab)] ParseInput input, [CustomDisplay(DisplayOption.Tab)] ParseOption option)
@@ -110,7 +110,7 @@ namespace Frends.Csv
         }
 
         /// <summary>
-        /// Create a csv string from object or from a json string.
+        /// Create a csv string from object or from a json string. See https://github.com/FrendsPlatform/Frends.Csv
         /// </summary>
         /// <returns>Object { string Csv } </returns>
         public static CreateResult Create([CustomDisplay(DisplayOption.Tab)] CreateInput input, [CustomDisplay(DisplayOption.Tab)] CreateOption option)
