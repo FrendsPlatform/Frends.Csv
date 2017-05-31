@@ -142,7 +142,7 @@ namespace Frends.Csv
 
     public class ParseResult
     {
-        private readonly Lazy<JToken> _jToken;
+        private readonly Lazy<object> _jToken;
         private readonly Lazy<string> _xml;
         private static CultureInfo _culture;
         public ParseResult(List<List<object>> data, List<string> headers, CultureInfo configurationCultureInfo)
@@ -150,7 +150,7 @@ namespace Frends.Csv
             Data = data;
             Headers = headers;
             _culture = configurationCultureInfo;
-            _jToken = new Lazy<JToken>(() => Data != null ? WriteJToken(data,headers) : null);
+            _jToken = new Lazy<object>(() => Data != null ? WriteJToken(data,headers) : null);
             _xml = new Lazy<string>(() => Data != null ? WriteXmlString(data, headers) : null);
         }
 
@@ -179,7 +179,7 @@ namespace Frends.Csv
             }
         }
 
-        private static JToken WriteJToken(IEnumerable<List<object>> data, IReadOnlyList<string> headers)
+        private static object WriteJToken(IEnumerable<List<object>> data, IReadOnlyList<string> headers)
         {
             using (var writer = new JTokenWriter())
             {
@@ -204,7 +204,7 @@ namespace Frends.Csv
 
         public List<List<object>> Data { get; }
         public List<string> Headers { get; set; }
-        public JToken ToJson()
+        public object ToJson()
         {
             return _jToken.Value;
         }

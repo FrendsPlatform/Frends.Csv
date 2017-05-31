@@ -24,13 +24,13 @@ year;car;mark;price
                 Csv = csv
             }, new ParseOption() {ContainsHeaderRow = true, SkipRowsFromTop = 2});
 
-            var resultJArray = result.ToJson() as JArray;
+            dynamic resultJArray = result.ToJson();
             var resultXml = result.ToXml();
             var resultData = result.Data;
             Assert.That(resultData.Count, Is.EqualTo(2));
             Assert.That(resultJArray.Count, Is.EqualTo(2));
             Assert.That(resultXml,Does.Contain("<year>2000</year>"));
-            Assert.That(resultJArray[0]["price"].Value<string>(), Is.EqualTo("2,34"));
+            Assert.That(resultJArray[0].price.ToString(), Is.EqualTo("2,34"));
         }
 
         [Test]
