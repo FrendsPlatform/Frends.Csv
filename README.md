@@ -3,16 +3,10 @@
    - [Building](#building)
    - [Contributing](#contributing)
    - [Documentation](#documentation)
-     - [Csv.Parse](#csv.parse)
-       - [Input](#input)
-         - [ColumnSpecification](#columnspecification)
-       - [Options](#options)
-       - [Example usage](#example-usage)
-       - [Result](#result)
-     - [Csv.Create](#csv.create)
-       - [Input](#input)
-       - [Options](#options)
-       - [Result](#result)
+     - [Csv.Parse](#csvparse)
+         - [ColumnSpecification](#columnspecification) 
+       - [Example usage](#example-usage) 
+     - [Csv.Create](#csvcreate)
    - [License](#license)
           
 # Frends.Csv
@@ -23,8 +17,6 @@ You can install the task via FRENDS UI Task View or you can find the nuget packa
 `https://www.myget.org/F/frends/api/v2`
 
 ## Building
-Ensure that you have `https://www.myget.org/F/frends/api/v2` added to your nuget feeds
-
 Clone a copy of the repo
 
 `git clone https://github.com/FrendsPlatform/Frends.Csv.git`
