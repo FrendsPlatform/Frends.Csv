@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using CsvHelper;
 using CsvHelper.Configuration;
-using Frends.Tasks.Attributes;
 using Newtonsoft.Json;
 
 #pragma warning disable 1591
@@ -18,7 +18,7 @@ namespace Frends.Csv
         /// Parse string csv content to a object. See https://github.com/FrendsPlatform/Frends.Csv
         /// </summary>
         /// <returns>Object { List&lt;List&lt;object&gt;&gt; Data, List&lt;string&gt; Headers, JToken ToJson(), string ToXml() } </returns>
-        public static ParseResult Parse([CustomDisplay(DisplayOption.Tab)] ParseInput input, [CustomDisplay(DisplayOption.Tab)] ParseOption option)
+        public static ParseResult Parse([PropertyTab] ParseInput input, [PropertyTab] ParseOption option)
         {
             var configuration = new CsvConfiguration
             {
@@ -113,7 +113,7 @@ namespace Frends.Csv
         /// Create a csv string from object or from a json string. See https://github.com/FrendsPlatform/Frends.Csv
         /// </summary>
         /// <returns>Object { string Csv } </returns>
-        public static CreateResult Create([CustomDisplay(DisplayOption.Tab)] CreateInput input, [CustomDisplay(DisplayOption.Tab)] CreateOption option)
+        public static CreateResult Create([PropertyTab] CreateInput input, [PropertyTab] CreateOption option)
         {
             var config = new CsvConfiguration()
             {

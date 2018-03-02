@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Xml;
-using Frends.Tasks.Attributes;
 using Newtonsoft.Json.Linq;
 using Formatting = Newtonsoft.Json.Formatting;
 
@@ -27,21 +27,21 @@ namespace Frends.Csv
         /// Json string to write to CSV. Must be an array of objects
         /// </summary>
         [DefaultValue("[{\"Column1\": \"row1Val1\",\"Column2\": \"row1Val2\"},{\"Column1\": \"row2Val1\",\"Column2\": \"row2Val2\"}]")]
-        [ConditionalDisplay(nameof(InputType), CreateInputType.Json)]
-        [DefaultDisplayType(DisplayType.Json)]
+        [UIHint(nameof(InputType), "", CreateInputType.Json)]
+        [DisplayFormat(DataFormatString = "Json")]
         public string Json { get; set; }
 
         /// <summary>
         /// Headers for the data. Need to be in the same order as the underlying data
         /// </summary>
-        [ConditionalDisplay(nameof(InputType), CreateInputType.List)]
+        [UIHint(nameof(InputType), "", CreateInputType.List)]
         public List<string> Headers { get; set; }
 
         /// <summary>
         /// Data to write to the csv string. Needs to be of type List&lt;List&lt;object&gt;&gt;. The order of the nested list objects need to be in the same order as the header list.
         /// </summary>
-        [ConditionalDisplay(nameof(InputType),CreateInputType.List)]
-        [DefaultDisplayType(DisplayType.Expression)]
+        [UIHint(nameof(InputType), "", CreateInputType.List)]
+        [DisplayFormat(DataFormatString = "Expression")]
         public List<List<object>> Data { get; set; }
 
         [DefaultValue("\";\"")]
@@ -77,7 +77,7 @@ namespace Frends.Csv
         /// <summary>
         /// Input csv string
         /// </summary>
-        [DefaultDisplayType(DisplayType.MultilineText)]
+        [DisplayFormat(DataFormatString = "Text")]
         public string Csv { get; set; }
 
         /// <summary>
