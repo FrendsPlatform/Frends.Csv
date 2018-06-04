@@ -13,8 +13,7 @@
 FRENDS Tasks to process CSV files.
 
 ## Installing
-You can install the task via FRENDS UI Task View or you can find the nuget package from the following nuget feed
-`https://www.myget.org/F/frends/api/v2`
+You can install the task via FRENDS UI Task view, by searching for packages. You can also download the latest NuGet package from https://www.myget.org/feed/frends/package/nuget/Frends.Csv and import it manually via the Task view.
 
 ## Building
 Clone a copy of the repo
