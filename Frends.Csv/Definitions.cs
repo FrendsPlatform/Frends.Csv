@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Xml;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Formatting = Newtonsoft.Json.Formatting;
 
@@ -57,9 +58,21 @@ namespace Frends.Csv
         public bool IncludeHeaderRow { get; set; } = true;
 
         /// <summary>
-        /// Specify the culture info to be used with the parse. If this is left empty InvariantCulture will be used. List of cultures: https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx Use the Language Culture Name.
+        /// Specify the culture info to be used when creating csv. If this is left empty InvariantCulture will be used. List of cultures: https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx Use the Language Culture Name.
         /// </summary>
         public string CultureInfo { get; set; } = "";
+
+        /// <summary>
+        /// If set true csv's fields are never put in quotes
+        /// </summary>
+        [DefaultValue("false")]
+        public bool NeverAddQuotesAroundValues { get; set; }
+
+        /// <summary>
+        /// Input's null values will be replaced with this value
+        /// </summary>
+        [DisplayFormat(DataFormatString = "Text")]
+        public string ReplaceNullsWith { get; set; }
     }
 
     public class CreateResult

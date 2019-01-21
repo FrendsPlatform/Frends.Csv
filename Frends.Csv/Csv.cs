@@ -119,24 +119,25 @@ namespace Frends.Csv
             {
                 Delimiter = input.Delimiter,
                 HasHeaderRecord = option.IncludeHeaderRow,
-                CultureInfo = new CultureInfo(option.CultureInfo)
+                CultureInfo = new CultureInfo(option.CultureInfo),
+                QuoteNoFields = option.NeverAddQuotesAroundValues                                
             };
             var csv = "";
 
             switch (input.InputType)
             {
                 case CreateInputType.List:
-                    csv = ListToCsvString(input.Data, input.Headers, config);
+                    csv = ListToCsvString(input.Data, input.Headers, config, option);
                     break;
                 case CreateInputType.Json:
-                    csv = JsonToCsvString(input.Json, config);
+                    csv = JsonToCsvString(input.Json, config, option);
                     break;
             }
             return new CreateResult(csv);
 
         }
 
-        private static string ListToCsvString(List<List<object>> inputData, List<string> inputHeaders, CsvConfiguration config)
+        private static string ListToCsvString(List<List<object>> inputData, List<string> inputHeaders, CsvConfiguration config, CreateOption option)
         {
 
             using (var csvString = new StringWriter())
@@ -156,7 +157,7 @@ namespace Frends.Csv
                 {
                     foreach (var cell in row)
                     {
-                        csv.WriteField(cell);
+                        csv.WriteField(cell ?? option.ReplaceNullsWith);
                     }
                     csv.NextRecord();
                 }
@@ -165,9 +166,9 @@ namespace Frends.Csv
         }
 
 
-        private static string JsonToCsvString(string json, CsvConfiguration config)
+        private static string JsonToCsvString(string json, CsvConfiguration config, CreateOption option)
         {
-            var data = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(json);
+            List<Dictionary<string, string>> data = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(json);
 
             using (var csvString = new StringWriter())
             using (var csv = new CsvWriter(csvString, config))
@@ -186,7 +187,7 @@ namespace Frends.Csv
                 {
                     foreach (var cell in row)
                     {
-                        csv.WriteField(cell.Value);
+                        csv.WriteField(cell.Value ?? option.ReplaceNullsWith);
                     }
                     csv.NextRecord();
                 }

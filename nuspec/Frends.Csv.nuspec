@@ -10,7 +10,7 @@
     <description>FRENDS Csv tasks</description>
     <summary />
     <dependencies>
-      <dependency id="Newtonsoft.Json" version="6.0.8" />
+      <dependency id="Newtonsoft.Json" version="12.0.1" />
       <dependency id="CsvHelper" version="[2.16.3.0]" />
     </dependencies>
     <frameworkAssemblies>
@@ -19,8 +19,8 @@
     </frameworkAssemblies>
   </metadata>
   <files>
-	<file src="Frends.Csv\bin\Release\Frends.Csv.dll" target="lib\net452\Frends.Csv.dll" />
-    <file src="Frends.Csv\bin\Release\Frends.Csv.XML" target="Frends.Csv.XML"/>
-    <file src="Frends.Csv\FrendsTaskMetadata.json" target="FrendsTaskMetadata.json"/>
+	<file src="..\Frends.Csv\bin\Release\Frends.Csv.dll" target="lib\net452\Frends.Csv.dll" />
+    <file src="..\Frends.Csv\bin\Release\Frends.Csv.XML" target="Frends.Csv.XML"/>
+    <file src="..\Frends.Csv\FrendsTaskMetadata.json" target="FrendsTaskMetadata.json"/>
   </files>
 </package>
