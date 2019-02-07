@@ -174,6 +174,7 @@ Is.EqualTo(
 "));
         }
 
+
         [Test]
         public void TestWriteFromJson()
         {
@@ -187,7 +188,65 @@ maybe;never
 "));
         }
 
+        [Test]
+        public void TestNullInputValue()
+        {
+            var json = @"[{""ShouldStayNull"":""null"", ""ShouldBeReplaced"": null}]";
+            var result = Csv.Create(new CreateInput() { InputType = CreateInputType.Json, Delimiter = ";", Json = json }, new CreateOption() { ReplaceNullsWith = "replacedvalue" });
+            Assert.That(result.Csv,
+Is.EqualTo(@"ShouldStayNull;ShouldBeReplaced
+null;replacedvalue
+"));
+        }
 
+        [Test]
+        public void TestNoQuotesOption()
+        {
+            var json = @"[{
+""foo"" : "" Normally I would have quotes "",
+""bar"" : ""I would not""
+}]";
+            var result1 = Csv.Create(new CreateInput() { InputType = CreateInputType.Json, Delimiter = ";", Json = json }, new CreateOption() { NeverAddQuotesAroundValues = true });
+            Assert.That(result1.Csv,
+ Is.EqualTo(@"foo;bar
+ Normally I would have quotes ;I would not
+"));
+
+            var result2 = Csv.Create(new CreateInput() { InputType = CreateInputType.Json, Delimiter = ";", Json = json }, new CreateOption() { NeverAddQuotesAroundValues = false });
+            Assert.That(result2.Csv,
+ Is.EqualTo(@"foo;bar
+"" Normally I would have quotes "";I would not
+"));
+        }
+
+        [Test]
+        public void TestDatetimeValue()
+        {
+            var json = @"[{
+""datetime"" : ""2018-11-22T10:30:55"",
+""string"" : ""foo""
+}]";
+            var result = Csv.Create(new CreateInput() { InputType = CreateInputType.Json, Delimiter = ";", Json = json }, new CreateOption() { });
+            Assert.That(result.Csv,
+ Is.EqualTo(@"datetime;string
+2018-11-22T10:30:55;foo
+"));
+        }
+
+        [Test]
+        public void TestDecimalValues()
+        {
+            var json = @"[{
+""foo"" : 0.1,
+""bar"" : 1.00,
+""baz"" : 0.000000000000000000000000000000000000000000000000000000001
+}]";
+            var result = Csv.Create(new CreateInput() { InputType = CreateInputType.Json, Delimiter = ";", Json = json }, new CreateOption() { });
+            Assert.That(result.Csv,
+ Is.EqualTo(@"foo;bar;baz
+0.1;1.00;0.000000000000000000000000000000000000000000000000000000001
+"));
+        }
         [Test]
         [Ignore("Fails due to issue in CsvHelper #2")]
         public void ParseAndWriteShouldUseSeparateCultures()

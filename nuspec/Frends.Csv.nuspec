@@ -10,7 +10,7 @@
     <description>FRENDS Csv tasks</description>
     <summary />
     <dependencies>
-      <dependency id="Newtonsoft.Json" version="6.0.8" />
+      <dependency id="Newtonsoft.Json" version="11.0.2" />
       <dependency id="CsvHelper" version="[2.16.3.0]" />
     </dependencies>
     <frameworkAssemblies>
