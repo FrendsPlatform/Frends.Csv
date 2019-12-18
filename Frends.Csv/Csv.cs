@@ -72,7 +72,7 @@ namespace Frends.Csv
                     }
                     else if (option.ContainsHeaderRow && !input.ColumnSpecifications.Any())
                     {
-                        headers = csvReader.FieldHeaders.Select(x => x.Replace(" ", option.ReplaceHeaderWhiteSpaceWithString)).ToList();
+                        headers = csvReader.FieldHeaders.Select(x => x.Replace(" ", option.ReplaceHeaderWhitespaceWith)).ToList();
 
                         while (csvReader.Read())
                         {

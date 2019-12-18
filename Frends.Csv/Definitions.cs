@@ -148,8 +148,8 @@ namespace Frends.Csv
         /// <summary>
         /// If intended header value contains whitespaces replace it(them) with this string, default action is to remove them.
         /// </summary>
-        [DefaultValue("String.Empty")]
-        public string ReplaceHeaderWhiteSpaceWithString { get; set; } = string.Empty;
+        [DisplayFormat(DataFormatString = "Text")]
+        public string ReplaceHeaderWhitespaceWith { get; set; } = string.Empty;
 
         /// <summary>
         /// The culture info to read/write the entries with, e.g. for decimal separators. InvariantCulture will be used by default. See list of cultures here: https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx; use the Language Culture Name.

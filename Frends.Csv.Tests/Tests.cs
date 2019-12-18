@@ -311,7 +311,7 @@ year of the z;car;mark;price
                 ColumnSpecifications = new ColumnSpecification[0],
                 Delimiter = ";",
                 Csv = csv
-            }, new ParseOption() { ContainsHeaderRow = true, SkipRowsFromTop = 0, ReplaceHeaderWhiteSpaceWithString = "_" });
+            }, new ParseOption() { ContainsHeaderRow = true, SkipRowsFromTop = 0, ReplaceHeaderWhitespaceWith = "_" });
 
             dynamic resultJArray = result.ToJson();
             var resultXml = result.ToXml();
