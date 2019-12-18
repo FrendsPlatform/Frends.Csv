@@ -86,7 +86,7 @@ year;car;mark;price
         public void TestParseWillAllKindOfDataTypes()
         {
             var csv =
-@"THIS;is;header;row;with;some;random;stuff;yes
+@"THIS;is;header;row;with;some;random;stuff ;yes
 1997;""Fo;rd"";2,34;true;1;4294967296;f;2008-09-15;2008-05-01 7:34:42Z
 2000;Mercury;2,38;false;0;4294967296;g;2009-09-15T06:30:41.7752486;Thu, 01 May 2008 07:34:42 GMT";
             var result = Csv.Parse(new ParseInput()
@@ -274,6 +274,56 @@ null;replacedvalue
 Foo;bar;100;1.1.2000 0.00.00
 "));
         }
+
+        [Test]
+        public void TestParseRowsWithAutomaticHeadersWhiteSpaceRemovalDefault()
+        {
+            var csv = $@"
+year of the z;car;mark;price 
+1997;Ford;E350;2,34
+2000;Mercury;Cougar;2,38";
+            var result = Csv.Parse(new ParseInput()
+            {
+                ColumnSpecifications = new ColumnSpecification[0],
+                Delimiter = ";",
+                Csv = csv
+            }, new ParseOption() { ContainsHeaderRow = true, SkipRowsFromTop = 0 });
+
+            dynamic resultJArray = result.ToJson();
+            var resultXml = result.ToXml();
+            var resultData = result.Data;
+            Assert.That(resultData.Count, Is.EqualTo(2));
+            Assert.That(resultJArray.Count, Is.EqualTo(2));
+            Assert.That(resultXml, Does.Contain("<yearofthez>"));
+            Assert.That(resultJArray[0].price.ToString(), Is.EqualTo("2,34"));
+        }
+
+
+        [Test]
+        public void TestParseRowsWithAutomaticHeadersWhiteSpaceRemovalGiven()
+        {
+            var csv = $@"
+year of the z;car;mark;price 
+1997;Ford;E350;2,34
+2000;Mercury;Cougar;2,38";
+            var result = Csv.Parse(new ParseInput()
+            {
+                ColumnSpecifications = new ColumnSpecification[0],
+                Delimiter = ";",
+                Csv = csv
+            }, new ParseOption() { ContainsHeaderRow = true, SkipRowsFromTop = 0, ReplaceHeaderWhitespaceWith = "_" });
+
+            dynamic resultJArray = result.ToJson();
+            var resultXml = result.ToXml();
+            var resultData = result.Data;
+            Assert.That(resultData.Count, Is.EqualTo(2));
+            Assert.That(resultJArray.Count, Is.EqualTo(2));
+            Assert.That(resultXml, Does.Contain("<year_of_the_z>"));
+            Assert.That(resultJArray[0].price_.ToString(), Is.EqualTo("2,34"));
+        }
+
+
+
     }
 }
 

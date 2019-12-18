@@ -14,6 +14,8 @@ namespace Frends.Csv
 {
     public class Csv
     {
+
+
         /// <summary>
         /// Parse string csv content to a object. See https://github.com/FrendsPlatform/Frends.Csv
         /// </summary>
@@ -70,7 +72,8 @@ namespace Frends.Csv
                     }
                     else if (option.ContainsHeaderRow && !input.ColumnSpecifications.Any())
                     {
-                        headers = csvReader.FieldHeaders.ToList();
+                        headers = csvReader.FieldHeaders.Select(x => x.Replace(" ", option.ReplaceHeaderWhitespaceWith)).ToList();
+
                         while (csvReader.Read())
                         {
                             var innerList = new List<object>();
