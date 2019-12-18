@@ -146,6 +146,12 @@ namespace Frends.Csv
         public bool TrimOutput { get; set; } = true;
 
         /// <summary>
+        /// If intended header value contains whitespaces replace it(them) with this string, default action is to remove them.
+        /// </summary>
+        [DefaultValue("String.Empty")]
+        public string ReplaceHeaderWhiteSpaceWithString { get; set; } = string.Empty;
+
+        /// <summary>
         /// The culture info to read/write the entries with, e.g. for decimal separators. InvariantCulture will be used by default. See list of cultures here: https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx; use the Language Culture Name.
         /// NOTE: Due to an issue with the CsvHelpers library, all CSV tasks will use the culture info setting of the first CSV task in the process; you cannot use different cultures for reading and parsing CSV files in the same process.|
         /// </summary>
