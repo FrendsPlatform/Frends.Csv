@@ -149,6 +149,7 @@ namespace Frends.Csv
         ///  If intended header value contains whitespaces replace it(them) with this string, default action is to do nothing.
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")]
+        [DefaultValue(" ")]
         public string ReplaceHeaderWhitespaceWith { get; set; } = " ";
 
         /// <summary>
