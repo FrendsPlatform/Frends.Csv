@@ -279,7 +279,7 @@ Foo;bar;100;1.1.2000 0.00.00
         public void TestParseRowsWithAutomaticHeadersWhiteSpaceRemovalDefault()
         {
             var csv = $@"
-year of the z;car;mark;price 
+year of the z;car;mark;price
 1997;Ford;E350;2,34
 2000;Mercury;Cougar;2,38";
             var result = Csv.Parse(new ParseInput()
@@ -294,7 +294,7 @@ year of the z;car;mark;price
             var resultData = result.Data;
             Assert.That(resultData.Count, Is.EqualTo(2));
             Assert.That(resultJArray.Count, Is.EqualTo(2));
-            Assert.That(resultXml, Does.Contain("<yearofthez>"));
+            Assert.That(resultXml, Does.Contain("<year of the z>"));
             Assert.That(resultJArray[0].price.ToString(), Is.EqualTo("2,34"));
         }
 
@@ -303,7 +303,7 @@ year of the z;car;mark;price
         public void TestParseRowsWithAutomaticHeadersWhiteSpaceRemovalGiven()
         {
             var csv = $@"
-year of the z;car;mark;price 
+year of the z;car;mark;price
 1997;Ford;E350;2,34
 2000;Mercury;Cougar;2,38";
             var result = Csv.Parse(new ParseInput()
@@ -319,7 +319,7 @@ year of the z;car;mark;price
             Assert.That(resultData.Count, Is.EqualTo(2));
             Assert.That(resultJArray.Count, Is.EqualTo(2));
             Assert.That(resultXml, Does.Contain("<year_of_the_z>"));
-            Assert.That(resultJArray[0].price_.ToString(), Is.EqualTo("2,34"));
+            Assert.That(resultJArray[0].price.ToString(), Is.EqualTo("2,34"));
         }
 
 
