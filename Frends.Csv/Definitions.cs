@@ -146,10 +146,10 @@ namespace Frends.Csv
         public bool TrimOutput { get; set; } = true;
 
         /// <summary>
-        /// If intended header value contains whitespaces replace it(them) with this string, default action is to remove them.
+        ///  If intended header value contains whitespaces replace it(them) with this string, default action is to do nothing.
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")]
-        public string ReplaceHeaderWhitespaceWith { get; set; } = string.Empty;
+        public string ReplaceHeaderWhitespaceWith { get; set; } = " ";
 
         /// <summary>
         /// The culture info to read/write the entries with, e.g. for decimal separators. InvariantCulture will be used by default. See list of cultures here: https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx; use the Language Culture Name.

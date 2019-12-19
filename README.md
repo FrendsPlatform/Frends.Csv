@@ -71,7 +71,7 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 | SkipRowsFromTop      | int                  | This value is set to ignore a specific amount of rows from the beginning of the csv string. This can for example be used if the string contains some metadata on the first row before the header.  |  
 | SkipEmptyRows        | bool                 | A flag to let the reader know if a record should be skipped when reading if it's empty. A record is considered empty if all fields are empty.                |  
 | TrimOutput           | bool                 | This flag tells the reader to trim whitespace from the beginning and ending of the field value when reading.              |  
-| ReplaceHeaderWhiteSpaceWith  | string       | This flag tells the reader to replace possible whitespace in the header field with specific string. Default is empty string. | 
+| ReplaceHeaderWhiteSpaceWith  | string       | This flag tells the reader to replace possible whitespace in the header field with specific string. Default action is to do nothing. | 
 | CultureInfo          | string               | The culture info to parse the file with, e.g. for decimal separators. InvariantCulture will be used by default. See list of cultures [here](https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx); use the Language Culture Name. <br> NOTE: Due to an issue with the CsvHelpers library, all CSV tasks will use the culture info setting of the first CSV task in the process; you cannot use different cultures for reading and parsing CSV files in the same process.|  
 
 #### Example usage
