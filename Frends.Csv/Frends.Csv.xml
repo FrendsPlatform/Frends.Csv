@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Frends.Csv</name>
+    </assembly>
+    <members>
+        <member name="M:Frends.Csv.Csv.Parse(Frends.Csv.ParseInput,Frends.Csv.ParseOption)">
+            <summary>
+            Parse string csv content to a object. See https://github.com/FrendsPlatform/Frends.Csv
+            </summary>
+            <returns>Object { List&lt;List&lt;object&gt;&gt; Data, List&lt;string&gt; Headers, JToken ToJson(), string ToXml() } </returns>
+        </member>
+        <member name="M:Frends.Csv.Csv.Create(Frends.Csv.CreateInput,Frends.Csv.CreateOption)">
+            <summary>
+            Create a csv string from object or from a json string. See https://github.com/FrendsPlatform/Frends.Csv
+            </summary>
+            <returns>Object { string Csv } </returns>
+        </member>
+        <member name="P:Frends.Csv.CreateInput.InputType">
+            <summary>
+            Select input type to show correct editor for input
+            </summary>
+        </member>
+        <member name="P:Frends.Csv.CreateInput.Json">
+            <summary>
+            Json string to write to CSV. Must be an array of objects
+            </summary>
+        </member>
+        <member name="P:Frends.Csv.CreateInput.Headers">
+            <summary>
+            Headers for the data. Need to be in the same order as the underlying data
+            </summary>
+        </member>
+        <member name="P:Frends.Csv.CreateInput.Data">
+            <summary>
+            Data to write to the csv string. Needs to be of type List&lt;List&lt;object&gt;&gt;. The order of the nested list objects need to be in the same order as the header list.
+            </summary>
+        </member>
+        <member name="P:Frends.Csv.CreateOption.IncludeHeaderRow">
+            <summary>
+            This flag tells the writer if a header row should be written.
+            </summary>
+        </member>
+        <member name="P:Frends.Csv.CreateOption.CultureInfo">
+            <summary>
+            Specify the culture info to be used when creating csv. If this is left empty InvariantCulture will be used. List of cultures: https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx Use the Language Culture Name.
+            </summary>
+        </member>
+        <member name="P:Frends.Csv.CreateOption.NeverAddQuotesAroundValues">
+            <summary>
+            If set true csv's fields are never put in quotes
+            </summary>
+        </member>
+        <member name="P:Frends.Csv.CreateOption.ReplaceNullsWith">
+            <summary>
+            Input's null values will be replaced with this value
+            </summary>
+        </member>
+        <member name="P:Frends.Csv.ParseInput.Csv">
+            <summary>
+            Input csv string
+            </summary>
+        </member>
+        <member name="P:Frends.Csv.ParseInput.Delimiter">
+            <summary>
+            The separator used in the csv string
+            </summary>
+        </member>
+        <member name="P:Frends.Csv.ParseInput.ColumnSpecifications">
+            <summary>
+            You can map columns to specific types. The order of the columns are used for mapping, that means that the ColumnSpecification elements need to be created in the same order as the CSV fields
+            </summary>
+        </member>
+        <member name="P:Frends.Csv.ColumnSpecification.Name">
+            <summary>
+            Name of the resulting column
+            </summary>
+        </member>
+        <member name="P:Frends.Csv.ColumnSpecification.Type">
+            <summary>
+            Type for the resulting column.
+            </summary>
+        </member>
+        <member name="P:Frends.Csv.ParseOption.ContainsHeaderRow">
+            <summary>
+            This flag tells the reader if there is a header row in the CSV string.
+            </summary>
+        </member>
+        <member name="P:Frends.Csv.ParseOption.SkipRowsFromTop">
+            <summary>
+            If the csv string contains metadata before the header row you can set this value to ignore a specific amount of rows from the beginning of the csv string.
+            </summary>
+        </member>
+        <member name="P:Frends.Csv.ParseOption.SkipEmptyRows">
+            <summary>
+            A flag to let the reader know if a record should be skipped when reading if it's empty. A record is considered empty if all fields are empty.
+            </summary>
+        </member>
+        <member name="P:Frends.Csv.ParseOption.TrimOutput">
+            <summary>
+            This flag tells the reader to trim whitespace from the beginning and ending of the field value when reading.
+            </summary>
+        </member>
+        <member name="P:Frends.Csv.ParseOption.ReplaceHeaderWhitespaceWith">
+            <summary>
+            If intended header value contains whitespaces replace it(them) with this string, default action it to do nothing
+            </summary>
+        </member>
+        <member name="P:Frends.Csv.ParseOption.CultureInfo">
+            <summary>
+            The culture info to read/write the entries with, e.g. for decimal separators. InvariantCulture will be used by default. See list of cultures here: https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx; use the Language Culture Name.
+            NOTE: Due to an issue with the CsvHelpers library, all CSV tasks will use the culture info setting of the first CSV task in the process; you cannot use different cultures for reading and parsing CSV files in the same process.|
+            </summary>
+        </member>
+    </members>
+</doc>

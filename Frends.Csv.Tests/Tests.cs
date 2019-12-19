@@ -22,7 +22,7 @@ year;car;mark;price
                 ColumnSpecifications = new ColumnSpecification[0],
                 Delimiter = ";",
                 Csv = csv
-            }, new ParseOption() {ContainsHeaderRow = true, SkipRowsFromTop = 2});
+            }, new ParseOption() {ContainsHeaderRow = true, SkipRowsFromTop = 2, SkipEmptyRows = false});
 
             dynamic resultJArray = result.ToJson();
             var resultXml = result.ToXml();
@@ -48,8 +48,7 @@ year;car;mark;price
                     new ColumnSpecification() {Name = "Mark", Type = ColumnType.String},
                     new ColumnSpecification() {Name = "Price", Type = ColumnType.Decimal}
                 },
-                Delimiter = ";",
-                Csv = csv
+                Delimiter = ";", Csv = csv
             }, new ParseOption() { ContainsHeaderRow = false, CultureInfo = "fi-FI"});
             var resultJArray = result.ToJson() as JArray;
             var resultXml = result.ToXml();
@@ -206,17 +205,25 @@ null;replacedvalue
 ""foo"" : "" Normally I would have quotes "",
 ""bar"" : ""I would not""
 }]";
+            var result2 = Csv.Create(new CreateInput() { InputType = CreateInputType.Json, Delimiter = ";", Json = json }, new CreateOption() { NeverAddQuotesAroundValues = false });
+            Assert.That(result2.Csv,
+                Is.EqualTo(@"foo;bar
+"" Normally I would have quotes "";I would not
+"));
+
+
             var result1 = Csv.Create(new CreateInput() { InputType = CreateInputType.Json, Delimiter = ";", Json = json }, new CreateOption() { NeverAddQuotesAroundValues = true });
             Assert.That(result1.Csv,
- Is.EqualTo(@"foo;bar
+                Is.EqualTo(@"foo;bar
  Normally I would have quotes ;I would not
 "));
 
-            var result2 = Csv.Create(new CreateInput() { InputType = CreateInputType.Json, Delimiter = ";", Json = json }, new CreateOption() { NeverAddQuotesAroundValues = false });
-            Assert.That(result2.Csv,
- Is.EqualTo(@"foo;bar
-"" Normally I would have quotes "";I would not
-"));
+
+      
+
+
+
+
         }
 
         [Test]
