@@ -47,8 +47,6 @@ namespace Frends.Csv
                 using (var csvReader = new CsvReader(sr, configuration))
                 {
 
-                    string wtf = csvReader.Context.RawRecord.ToString();
-
 
                     if (option.ContainsHeaderRow)
                     { 

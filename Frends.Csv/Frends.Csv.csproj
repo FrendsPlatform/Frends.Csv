@@ -3,11 +3,12 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.3</Version>
+    <Version>1.0.0</Version>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+  <PropertyGroup>
     <DocumentationFile>C:\projects\Frends.Csv\Frends.Csv\Frends.Csv.xml</DocumentationFile>
+    <Description>This version supports .NET Standard</Description>
   </PropertyGroup>
   <ItemGroup>
     <None Include="FrendsTaskMetadata.json" Pack="true" PackagePath="/">
