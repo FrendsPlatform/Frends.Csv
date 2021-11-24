@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
@@ -329,7 +328,25 @@ year of the z;car;mark;price
             Assert.That(resultJArray[0].price.ToString(), Is.EqualTo("2,34"));
         }
 
+        [Test]
+        public void TestParseIgnoresQuotesInRowData()
+        {
+            var csv = "asdasd\nCoolio\nyear;car\";mark;price\n1997;Ford;E350;2,34\n2000;Mercury;Cougar;2,38";
+            var result = Csv.Parse(new ParseInput()
+            {
+                ColumnSpecifications = new ColumnSpecification[0],
+                Delimiter = ";",
+                Csv = csv
+            }, new ParseOption() { ContainsHeaderRow = true, SkipRowsFromTop = 2, SkipEmptyRows = false, IgnoreQuotes = true });
 
+            dynamic resultJArray = result.ToJson();
+            var resultXml = result.ToXml();
+            var resultData = result.Data;
+            Assert.That(resultData.Count, Is.EqualTo(2));
+            Assert.That(resultJArray.Count, Is.EqualTo(2));
+            Assert.That(resultXml, Does.Contain("<year>2000</year>"));
+            Assert.That(resultJArray[0].price.ToString(), Is.EqualTo("2,34"));
+        }
 
     }
 }

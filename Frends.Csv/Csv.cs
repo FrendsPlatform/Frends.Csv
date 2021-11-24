@@ -29,8 +29,9 @@ namespace Frends.Csv
                 HasHeaderRecord = option.ContainsHeaderRow,
                 Delimiter = input.Delimiter,
                 TrimOptions = option.TrimOutput ? TrimOptions.None : TrimOptions.Trim, 
-                IgnoreBlankLines = option.SkipEmptyRows , 
-                CultureInfo = new CultureInfo(option.CultureInfo)
+                IgnoreBlankLines = option.SkipEmptyRows, 
+                CultureInfo = new CultureInfo(option.CultureInfo),
+                IgnoreQuotes = option.IgnoreQuotes
             };
            
 

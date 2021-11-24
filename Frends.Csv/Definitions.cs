@@ -6,7 +6,6 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Xml;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Formatting = Newtonsoft.Json.Formatting;
 
@@ -138,6 +137,12 @@ namespace Frends.Csv
         /// </summary>
         [DefaultValue("true")]
         public bool SkipEmptyRows { get; set; } = true;
+
+        /// <summary>
+        /// A flag to let the reader know if quotes should be ignored.
+        /// </summary>
+        [DefaultValue("false")]
+        public bool IgnoreQuotes { get; set; } = false;
 
         /// <summary>
         /// This flag tells the reader to trim whitespace from the beginning and ending of the field value when reading.
