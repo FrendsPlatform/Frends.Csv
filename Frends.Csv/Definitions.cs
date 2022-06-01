@@ -139,12 +139,6 @@ namespace Frends.Csv
         public bool SkipEmptyRows { get; set; } = true;
 
         /// <summary>
-        /// A flag to let the reader know if quotes should be ignored.
-        /// </summary>
-        [DefaultValue("false")]
-        public bool IgnoreQuotes { get; set; } = false;
-
-        /// <summary>
         /// This flag tells the reader to trim whitespace from the beginning and ending of the field value when reading.
         /// </summary>
         [DefaultValue("true")]
@@ -162,6 +156,12 @@ namespace Frends.Csv
         /// NOTE: Due to an issue with the CsvHelpers library, all CSV tasks will use the culture info setting of the first CSV task in the process; you cannot use different cultures for reading and parsing CSV files in the same process.|
         /// </summary>
         public string CultureInfo { get; set; } = "";
+
+        /// <summary>
+        /// A flag to let the reader know if quotes should be ignored.
+        /// </summary>
+        [DefaultValue("false")]
+        public bool IgnoreQuotes { get; set; } = false;
 
     }
 
