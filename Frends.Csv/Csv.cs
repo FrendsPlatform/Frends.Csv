@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using CsvHelper;
 using CsvHelper.Configuration;
 using Newtonsoft.Json;
@@ -79,16 +80,9 @@ namespace Frends.Csv
                     }
                     else if (option.ContainsHeaderRow && !input.ColumnSpecifications.Any())
                     {
-                        if (string.Equals(option.ReplaceHeaderWhitespaceWith, " "))
-                        {
-                            headers = csvReader.Context.HeaderRecord.ToList();
-                        }
-                        else
-                        {
-                            headers = csvReader.Context.HeaderRecord.Select(x => x.Replace(" ", option.ReplaceHeaderWhitespaceWith)).ToList();
-                        }
+                        var replacementString = string.IsNullOrEmpty(option.ReplaceHeaderWhitespaceWith) ? " " : option.ReplaceHeaderWhitespaceWith;
 
-                       
+                        headers = csvReader.Context.HeaderRecord.Select(x => Regex.Replace(x, @"\s", replacementString)).ToList();
 
                         while (csvReader.Read())
                         {

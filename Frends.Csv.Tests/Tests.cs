@@ -329,6 +329,32 @@ year of the z;car;mark;price
             Assert.That(resultJArray[0].price.ToString(), Is.EqualTo("2,34"));
         }
 
+        [Test]
+        public void TestParseRowsWithAutomaticHeadersDifferentWhiteSpacesRemoval()
+        {
+            var csv = $@"
+hair space;six-per-em space;thin space;punctuation space;four-per-em space;three-per-em space;figure space;en space;em space
+test;test;test;test;test;test;test;test;test;
+";
+            var result = Csv.Parse(new ParseInput()
+            {
+                ColumnSpecifications = new ColumnSpecification[0],
+                Delimiter = ";",
+                Csv = csv
+            }, new ParseOption() { ContainsHeaderRow = true, SkipRowsFromTop = 0 });
+
+            var resultXml = result.ToXml();
+            Assert.That(resultXml, Does.Contain("hair space"));
+            Assert.That(resultXml, Does.Contain("six-per-em space"));
+            Assert.That(resultXml, Does.Contain("thin space"));
+            Assert.That(resultXml, Does.Contain("punctuation space"));
+            Assert.That(resultXml, Does.Contain("four-per-em space"));
+            Assert.That(resultXml, Does.Contain("three-per-em space"));
+            Assert.That(resultXml, Does.Contain("figure space"));
+            Assert.That(resultXml, Does.Contain("en space"));
+            Assert.That(resultXml, Does.Contain("em space"));
+        }
+
 
 
     }
