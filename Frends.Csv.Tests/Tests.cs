@@ -255,11 +255,11 @@ null;replacedvalue
 "));
         }
         [Test]
-        [Ignore("Fails due to issue in CsvHelper #2")]
         public void ParseAndWriteShouldUseSeparateCultures()
         {
-            var csv = @"First; Second; Number; Date
-          Foo; bar; 100; 2000-01-01";
+            var csv = 
+@"First; Second; Number; Date
+Foo; bar; 100; 2000-01-01";
 
             var parseResult = Csv.Parse(new ParseInput()
             {
@@ -272,13 +272,13 @@ null;replacedvalue
                 },
                 Delimiter = ";",
                 Csv = csv
-            }, new ParseOption() { ContainsHeaderRow = true });
+            }, new ParseOption() { ContainsHeaderRow = true, CultureInfo = "en-us"});
 
             var result = Csv.Create(new CreateInput() { InputType = CreateInputType.List, Delimiter = ";", Data = parseResult.Data, Headers = parseResult.Headers }, new CreateOption() { CultureInfo = "fi-FI" });
 
             Assert.That(result.Csv, Is.EqualTo(
                 @"First;Second;Number;Date
-Foo;bar;100;1.1.2000 0.00.00
+Foo;"" bar"";100;1.1.2000 0.00.00
 "));
         }
 
