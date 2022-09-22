@@ -24,13 +24,12 @@ namespace Frends.Csv
         {
 
             
-            var configuration = new Configuration
+            var configuration = new CsvConfiguration(new CultureInfo(option.CultureInfo))
             {
                 HasHeaderRecord = option.ContainsHeaderRow,
                 Delimiter = input.Delimiter,
                 TrimOptions = option.TrimOutput ? TrimOptions.None : TrimOptions.Trim, 
-                IgnoreBlankLines = option.SkipEmptyRows , 
-                CultureInfo = new CultureInfo(option.CultureInfo)
+                IgnoreBlankLines = option.SkipEmptyRows
             };
            
 
@@ -81,11 +80,11 @@ namespace Frends.Csv
                     {
                         if (string.Equals(option.ReplaceHeaderWhitespaceWith, " "))
                         {
-                            headers = csvReader.Context.HeaderRecord.ToList();
+                            headers = csvReader.HeaderRecord.ToList();
                         }
                         else
                         {
-                            headers = csvReader.Context.HeaderRecord.Select(x => x.Replace(" ", option.ReplaceHeaderWhitespaceWith)).ToList();
+                            headers = csvReader.HeaderRecord.Select(x => x.Replace(" ", option.ReplaceHeaderWhitespaceWith)).ToList();
                         }
 
                        
@@ -93,7 +92,7 @@ namespace Frends.Csv
                         while (csvReader.Read())
                         {
                             var innerList = new List<object>();
-                            for (var index = 0; index < csvReader.Context.HeaderRecord.Length; index++)
+                            for (var index = 0; index < csvReader.HeaderRecord.Length; index++)
                             {
                                 var obj = csvReader.GetField(index);
                                 innerList.Add(obj);
@@ -108,8 +107,8 @@ namespace Frends.Csv
                             throw new ArgumentException("Csv input can not be empty");
                         }
 
-                        headers = csvReader.Context.Record.Select((x, index) => index.ToString()).ToList();
-                        resultData.Add(new List<object>(csvReader.Context.Record));
+                        headers = csvReader.Parser.Record.Select((x, index) => index.ToString()).ToList();
+                        resultData.Add(new List<object>(csvReader.Parser.Record));
                         while (csvReader.Read())
                         {
                             var innerList = new List<object>();
@@ -134,19 +133,18 @@ namespace Frends.Csv
         /// <returns>Object { string Csv } </returns>
         public static CreateResult Create([PropertyTab] CreateInput input, [PropertyTab] CreateOption option)
         {
-            var config = new Configuration()
+            var config = new CsvConfiguration(new CultureInfo(option.CultureInfo))
             {
                 Delimiter = input.Delimiter,
-                HasHeaderRecord = option.IncludeHeaderRow,
-                CultureInfo = new CultureInfo(option.CultureInfo),
-                IgnoreQuotes  = option.NeverAddQuotesAroundValues
+                HasHeaderRecord = option.IncludeHeaderRow
             };
 
             if (option.NeverAddQuotesAroundValues)
             {
+                config.Mode = CsvMode.NoEscape;
                 // if IgnoreQuotes is true, seems like ShouldQuote function has to return false in all cases
                 // if IgnoreQuotes is false ShouldQuote can't have any implementation otherwise it will overwrite IgnoreQuotes statement ( might turn it on again)
-                config.ShouldQuote = (field, context) => (!option.NeverAddQuotesAroundValues);
+                config.ShouldQuote = (field) => (!option.NeverAddQuotesAroundValues);
             }
             var csv = string.Empty;
 
@@ -163,7 +161,7 @@ namespace Frends.Csv
 
         }
 
-        private static string ListToCsvString(List<List<object>> inputData, List<string> inputHeaders, Configuration config, CreateOption option)
+        private static string ListToCsvString(List<List<object>> inputData, List<string> inputHeaders, CsvConfiguration config, CreateOption option)
         {
 
             using (var csvString = new StringWriter())
@@ -192,7 +190,7 @@ namespace Frends.Csv
         }
 
 
-        private static string JsonToCsvString(string json, Configuration config, CreateOption option)
+        private static string JsonToCsvString(string json, CsvConfiguration config, CreateOption option)
         {
             List<Dictionary<string, string>> data = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(json);
 
