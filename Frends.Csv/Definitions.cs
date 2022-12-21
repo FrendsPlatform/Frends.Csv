@@ -69,6 +69,12 @@ namespace Frends.Csv
         public bool NeverAddQuotesAroundValues { get; set; }
 
         /// <summary>
+        /// Force quotation of all values
+        /// </summary>
+        [DefaultValue("false")]
+        public bool ForceQuotesAroundValues { get; set; }
+
+        /// <summary>
         /// Input's null values will be replaced with this value
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")]

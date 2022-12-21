@@ -139,6 +139,7 @@ namespace Frends.Csv
                 HasHeaderRecord = option.IncludeHeaderRow
             };
 
+            config.ShouldQuote = (field, context) => (option.ForceQuotesAroundValues);
             if (option.NeverAddQuotesAroundValues)
             {
                 config.Mode = CsvMode.NoEscape;
@@ -146,6 +147,7 @@ namespace Frends.Csv
                 // if IgnoreQuotes is false ShouldQuote can't have any implementation otherwise it will overwrite IgnoreQuotes statement ( might turn it on again)
                 config.ShouldQuote = (field) => (!option.NeverAddQuotesAroundValues);
             }
+
             var csv = string.Empty;
 
             switch (input.InputType)
