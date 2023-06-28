@@ -28,6 +28,10 @@ namespace Frends.Csv
                 IgnoreBlankLines = option.SkipEmptyRows
             };
 
+            // Setting the MissingFieldFound -delegate property of configuration to null when
+            // option.TreatMissingFieldsAsNulls is set to true for returning null values for missing fields.
+            // Otherwise the default setting which throws a MissingFieldException is used
+
             if (option.TreatMissingFieldsAsNulls)
             {
                 configuration.MissingFieldFound = null;

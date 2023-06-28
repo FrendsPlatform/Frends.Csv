@@ -147,13 +147,7 @@ year;car;mark;price
                 @"header1,header2,header3
                 value1,value2,value3
                 value1,value2,value3
-                value1,value2,value3
-                value1,value2,value3
-                value1,value2,value3
-                value1,value2,value3
-                value1,value2
-                value1,value2,value3
-                value1,value2,value3";
+                value1,value2";
 
             var result = Csv.Parse(new ParseInput()
             {
@@ -162,76 +156,44 @@ year;car;mark;price
                 Csv = csv
             }, new ParseOption() { ContainsHeaderRow = true, CultureInfo = "fi-FI", TreatMissingFieldsAsNulls = true });
             var resultJson = (JArray)result.ToJson();
-            Assert.That(resultJson[6].Value<string>("header3"), Is.EqualTo(null));
+            Assert.That(resultJson[2].Value<string>("header3"), Is.EqualTo(null));
 
             var resultXml = result.ToXml();
             Assert.That(resultXml, Does.Contain("<header3 />"));
 
             var resultData = result.Data;
-            var nullItem = resultData[6][2];
+            var nullItem = resultData[2][2];
 
             Assert.That(nullItem, Is.EqualTo(null));
         }
 
         [Test]
-        public void TestParseTreatMissingFieldsAsNullDefault()
+        public void TestParseTreatMissingFieldsAsNullSetToFalse()
         {
-            var csv =
-                @"header1,header2,header3
-                value1,value2,value3
-                value1,value2,value3
-                value1,value2,value3
-                value1,value2,value3
-                value1,value2,value3
-                value1,value2,value3
-                value1,value2
-                value1,value2,value3
-                value1,value2,value3";
-            try
-            {
-                var result = Csv.Parse(new ParseInput()
+            Assert.Throws<CsvHelper.MissingFieldException>(
+                delegate
                 {
-                    ColumnSpecifications = new ColumnSpecification[0],
-                    Delimiter = ",",
-                    Csv = csv
-                }, new ParseOption() { ContainsHeaderRow = true, CultureInfo = "fi-FI" });
-                var resultJson = (JArray)result.ToJson();
-            }
-            catch (Exception ex)
-            {
-                Assert.That(ex.GetType(), Is.EqualTo(typeof(CsvHelper.MissingFieldException)));
-            }
+                    var csv =
+                      @"header1,header2,header3
+                        value1,value2,value3
+                        value1,value2,value3
+                        value1,value2";
+
+                    var result = Csv.Parse(new ParseInput()
+                    {
+                        ColumnSpecifications = new ColumnSpecification[0],
+                        Delimiter = ",",
+                        Csv = csv
+                    }, new ParseOption() { ContainsHeaderRow = true, CultureInfo = "fi-FI", TreatMissingFieldsAsNulls = false });
+                });
         }
 
         [Test]
-        public void TestParseTreatMissingFieldsAsNullSetToFalse()
+        public void TestParseTreatMissingFieldsAsNullDefaultValue()
         {
-            var csv =
-                @"header1,header2,header3
-                value1,value2,value3
-                value1,value2,value3
-                value1,value2,value3
-                value1,value2,value3
-                value1,value2,value3
-                value1,value2,value3
-                value1,value2
-                value1,value2,value3
-                value1,value2,value3";
+            var options = new ParseOption();
 
-            try
-            {
-                var result = Csv.Parse(new ParseInput()
-                {
-                    ColumnSpecifications = new ColumnSpecification[0],
-                    Delimiter = ",",
-                    Csv = csv
-                }, new ParseOption() { ContainsHeaderRow = true, CultureInfo = "fi-FI", TreatMissingFieldsAsNulls = false });
-                var resultJson = (JArray)result.ToJson();
-            }
-            catch (Exception ex)
-            {
-                Assert.That(ex.GetType(), Is.EqualTo(typeof(CsvHelper.MissingFieldException)));
-            }
+            Assert.That(options.TreatMissingFieldsAsNulls, Is.EqualTo(false));
         }
 
         [Test]
