@@ -14,8 +14,8 @@ using Formatting = Newtonsoft.Json.Formatting;
 
 namespace Frends.Csv
 {
-
-    public enum CreateInputType { List, Json }
+    public enum CreateInputType
+    { List, Json }
 
     public class CreateInput
     {
@@ -105,7 +105,8 @@ namespace Frends.Csv
         public ColumnSpecification[] ColumnSpecifications { get; set; }
     }
 
-    public enum ColumnType { String, Int, Long, Decimal, Double, Boolean, DateTime, Char }
+    public enum ColumnType
+    { String, Int, Long, Decimal, Double, Boolean, DateTime, Char }
 
     public class ColumnSpecification
     {
@@ -158,6 +159,11 @@ namespace Frends.Csv
         /// </summary>
         public string CultureInfo { get; set; } = "";
 
+        /// <summary>
+        /// The flag for reader to treat missing fields as nulls instead of throwing a MissingFieldsException
+        /// </summary>
+        [DefaultValue("false")]
+        public bool TreatMissingFieldsAsNulls { get; set; } = false;
     }
 
     public class ParseResult
@@ -165,19 +171,21 @@ namespace Frends.Csv
         private readonly Lazy<object> _jToken;
         private readonly Lazy<string> _xml;
         private static CultureInfo _culture;
+
         public ParseResult(List<List<object>> data, List<string> headers, CultureInfo configurationCultureInfo)
         {
             Data = data;
             Headers = headers;
             _culture = configurationCultureInfo;
-            _jToken = new Lazy<object>(() => Data != null ? WriteJToken(data,headers) : null);
+            _jToken = new Lazy<object>(() => Data != null ? WriteJToken(data, headers) : null);
             _xml = new Lazy<string>(() => Data != null ? WriteXmlString(data, headers) : null);
         }
 
         private static string WriteXmlString(IEnumerable<List<object>> data, IReadOnlyList<string> headers)
         {
-            using (var ms = new MemoryStream()) {
-                using (var writer = new XmlTextWriter(ms, new UTF8Encoding(false)) {Formatting = System.Xml.Formatting.Indented})
+            using (var ms = new MemoryStream())
+            {
+                using (var writer = new XmlTextWriter(ms, new UTF8Encoding(false)) { Formatting = System.Xml.Formatting.Indented })
                 {
                     writer.WriteStartDocument();
                     writer.WriteStartElement("Root");
@@ -224,10 +232,12 @@ namespace Frends.Csv
 
         public List<List<object>> Data { get; }
         public List<string> Headers { get; set; }
+
         public object ToJson()
         {
             return _jToken.Value;
         }
+
         public string ToXml()
         {
             return _xml.Value;
