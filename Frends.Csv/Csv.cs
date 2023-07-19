@@ -22,15 +22,31 @@ namespace Frends.Csv
         /// <returns>Object { List&lt;List&lt;object&gt;&gt; Data, List&lt;string&gt; Headers, JToken ToJson(), string ToXml() } </returns>
         public static ParseResult Parse([PropertyTab] ParseInput input, [PropertyTab] ParseOption option)
         {
-            var configuration = new CsvConfiguration(new CultureInfo(option.CultureInfo))
+            CsvConfiguration configuration;
+
+            if (!option.IgnoreReferences && option.IgnoreQuotes)
             {
-                HasHeaderRecord = option.ContainsHeaderRow,
-                Delimiter = input.Delimiter,
-                TrimOptions = option.TrimOutput ? TrimOptions.None : TrimOptions.Trim,
-                IgnoreBlankLines = option.SkipEmptyRows, 
-                CultureInfo = new CultureInfo(option.CultureInfo),
-                IgnoreQuotes = option.IgnoreQuotes
-            };
+                configuration = new CsvConfiguration(new CultureInfo(option.CultureInfo))
+                {
+                    HasHeaderRecord = option.ContainsHeaderRow,
+                    Delimiter = input.Delimiter,
+                    TrimOptions = option.TrimOutput ? TrimOptions.None : TrimOptions.Trim,
+                    IgnoreBlankLines = option.SkipEmptyRows,
+                    IgnoreReferences = option.IgnoreReferences,
+                    Mode = !option.IgnoreReferences && option.IgnoreQuotes ? CsvMode.NoEscape : CsvMode.Escape,
+                };
+            }
+            else
+            {
+                configuration = new CsvConfiguration(new CultureInfo(option.CultureInfo))
+                {
+                    HasHeaderRecord = option.ContainsHeaderRow,
+                    Delimiter = input.Delimiter,
+                    TrimOptions = option.TrimOutput ? TrimOptions.None : TrimOptions.Trim,
+                    IgnoreBlankLines = option.SkipEmptyRows,
+                    IgnoreReferences = option.IgnoreReferences
+                };
+            }
            
             using (TextReader sr = new StringReader(input.Csv))
             {

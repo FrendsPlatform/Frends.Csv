@@ -158,6 +158,12 @@ namespace Frends.Csv
         public string CultureInfo { get; set; } = "";
 
         /// <summary>
+        /// A flag to let the reader know if reference should be ignored.
+        /// </summary>
+        [DefaultValue("false")]
+        public bool IgnoreReferences { get; set; } = false;
+
+        /// <summary>
         /// A flag to let the reader know if quotes should be ignored.
         /// </summary>
         [DefaultValue("false")]

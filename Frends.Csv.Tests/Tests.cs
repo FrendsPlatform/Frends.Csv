@@ -103,7 +103,7 @@ year;car;mark;price
                 },
                 Delimiter = ";",
                 Csv = csv
-            }, new ParseOption() { ContainsHeaderRow = true, CultureInfo = "fi-FI" });
+            }, new ParseOption() { ContainsHeaderRow = true, CultureInfo = "fi-FI", IgnoreReferences = true });
             var resultJson = (JArray) result.ToJson();
             Assert.That(resultJson[0]["Long"].Value<long>(), Is.EqualTo(4294967296));
             var resultXml = result.ToXml();
