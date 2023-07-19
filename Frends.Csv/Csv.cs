@@ -45,14 +45,6 @@ namespace Frends.Csv
                     IgnoreReferences = option.IgnoreReferences
                 };
             }
-           
-            var configuration = new CsvConfiguration(new CultureInfo(option.CultureInfo))
-            {
-                HasHeaderRecord = option.ContainsHeaderRow,
-                Delimiter = input.Delimiter,
-                TrimOptions = option.TrimOutput ? TrimOptions.None : TrimOptions.Trim,
-                IgnoreBlankLines = option.SkipEmptyRows
-            };
 
             // Setting the MissingFieldFound -delegate property of configuration to null when
             // option.TreatMissingFieldsAsNulls is set to true for returning null values for missing fields.

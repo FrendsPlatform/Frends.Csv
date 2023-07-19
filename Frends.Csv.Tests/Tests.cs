@@ -28,7 +28,7 @@ year;car;mark;price
             var resultData = result.Data;
             Assert.AreEqual(resultData.Count, 2);
             Assert.AreEqual(resultJArray.Count, 2);
-            Assert.AreEqual(resultXml,"<year>2000</year>");
+            Assert.IsTrue(resultXml.Contains("<year>2000</year>"));
             Assert.AreEqual(resultJArray[0].price.ToString(), "2,34");
         }
 
@@ -55,7 +55,7 @@ year;car;mark;price
             var resultData = result.Data;
             Assert.AreEqual(resultData.Count, 2);
             Assert.AreEqual(resultJArray.Count, 2);
-            Assert.AreEqual(resultXml, "<Year>2000</Year>");
+            Assert.IsTrue(resultXml.Contains("<Year>2000</Year>"));
             Assert.AreEqual(resultJArray[0]["Price"].Value<decimal>(), 2.34);
         }
 
@@ -77,7 +77,7 @@ year;car;mark;price
             var resultData = result.Data;
             Assert.AreEqual(resultData.Count, 2);
             Assert.AreEqual(resultJArray.Count, 2);
-            Assert.AreEqual(resultXml, "<0>2000</0>");
+            Assert.IsTrue(resultXml.Contains("<0>2000</0>"));
             Assert.AreEqual(resultJArray[0]["3"].Value<string>(), "2,34");
         }
 
@@ -108,7 +108,7 @@ year;car;mark;price
             var resultJson = (JArray) result.ToJson();
             Assert.AreEqual(resultJson[0]["Long"].Value<long>(), 4294967296);
             var resultXml = result.ToXml();
-            Assert.AreEqual(resultXml, "<DateTime2>1.5.2008 10.34.42</DateTime2>");
+            Assert.IsTrue(resultXml.Contains("<DateTime2>1.5.2008 10.34.42</DateTime2>"));
             var resultData = result.Data;
             var itemArray = resultData[0];
             Assert.AreEqual(itemArray[0].GetType(), typeof(int));
@@ -155,15 +155,15 @@ year;car;mark;price
                 Csv = csv
             }, new ParseOption() { ContainsHeaderRow = true, CultureInfo = "fi-FI", TreatMissingFieldsAsNulls = true });
             var resultJson = (JArray)result.ToJson();
-            Assert.That(resultJson[2].Value<string>("header3"), Is.EqualTo(null));
+            Assert.AreEqual(resultJson[2].Value<string>("header3"), null);
 
             var resultXml = result.ToXml();
-            Assert.That(resultXml, Does.Contain("<header3 />"));
+            Assert.IsTrue(resultXml.Contains("<header3 />"));
 
             var resultData = result.Data;
             var nullItem = resultData[2][2];
 
-            Assert.That(nullItem, Is.EqualTo(null));
+            Assert.AreEqual(nullItem, null);
         }
 
         [Test]
@@ -192,7 +192,7 @@ year;car;mark;price
         {
             var options = new ParseOption();
 
-            Assert.That(options.TreatMissingFieldsAsNulls, Is.EqualTo(false));
+            Assert.AreEqual(options.TreatMissingFieldsAsNulls, false);
         }
 
         [Test]
@@ -353,7 +353,7 @@ year of the z;car;mark;price
             var resultData = result.Data;
             Assert.AreEqual(resultData.Count, 2);
             Assert.AreEqual(resultJArray.Count, 2);
-            Assert.AreEqual(resultXml, "<year of the z>");
+            Assert.IsTrue(resultXml.Contains("<year of the z>"));
             Assert.AreEqual(resultJArray[0].price.ToString(), "2,34");
         }
 
@@ -376,7 +376,7 @@ year of the z;car;mark;price
             var resultData = result.Data;
             Assert.AreEqual(resultData.Count, 2);
             Assert.AreEqual(resultJArray.Count, 2);
-            Assert.AreEqual(resultXml, "<year_of_the_z>");
+            Assert.IsTrue(resultXml.Contains("<year_of_the_z>"));
             Assert.AreEqual(resultJArray[0].price.ToString(), "2,34");
         }
 
@@ -396,7 +396,7 @@ year of the z;car;mark;price
             var resultData = result.Data;
             Assert.AreEqual(resultData.Count, 2);
             Assert.AreEqual(resultJArray.Count, 2);
-            Assert.AreEqual(resultXml, "<year>2000</year>");
+            Assert.IsTrue(resultXml.Contains("<year>2000</year>"));
             Assert.AreEqual(resultJArray[0].price.ToString(), "2,34");
         }
 
