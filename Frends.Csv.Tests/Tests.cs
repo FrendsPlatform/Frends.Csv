@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
-
 namespace Frends.Csv.Tests
 {
     [TestFixture]
@@ -17,11 +16,12 @@ Coolio
 year;car;mark;price
 1997;Ford;E350;2,34
 2000;Mercury;Cougar;2,38";
-            var result = Csv.Parse(new ParseInput() {
+            var result = Csv.Parse(new ParseInput()
+            {
                 ColumnSpecifications = new ColumnSpecification[0],
                 Delimiter = ";",
                 Csv = csv
-            }, new ParseOption() {ContainsHeaderRow = true, SkipRowsFromTop = 2, SkipEmptyRows = false});
+            }, new ParseOption() { ContainsHeaderRow = true, SkipRowsFromTop = 2, SkipEmptyRows = false });
 
             dynamic resultJArray = result.ToJson();
             var resultXml = result.ToXml();
@@ -40,15 +40,16 @@ year;car;mark;price
 
             var result = Csv.Parse(new ParseInput()
             {
-            ColumnSpecifications = new[]
+                ColumnSpecifications = new[]
                 {
                     new ColumnSpecification() {Name = "Year", Type = ColumnType.Int},
                     new ColumnSpecification() {Name = "Car", Type = ColumnType.String},
                     new ColumnSpecification() {Name = "Mark", Type = ColumnType.String},
                     new ColumnSpecification() {Name = "Price", Type = ColumnType.Decimal}
                 },
-                Delimiter = ";", Csv = csv
-            }, new ParseOption() { ContainsHeaderRow = false, CultureInfo = "fi-FI"});
+                Delimiter = ";",
+                Csv = csv
+            }, new ParseOption() { ContainsHeaderRow = false, CultureInfo = "fi-FI" });
             var resultJArray = result.ToJson() as JArray;
             var resultXml = result.ToXml();
             var resultData = result.Data;
@@ -134,11 +135,65 @@ year;car;mark;price
             Assert.AreEqual(itemArray[7].GetType(), typeof(DateTime));
             Assert.AreEqual(itemArray[7], new DateTime(2008, 9, 15));
 
-            Assert.AreEqual(itemArray[8].GetType(), typeof(DateTime));
-            Assert.AreEqual(itemArray[8], new DateTime(2008, 5, 1, 10, 34, 42));
+            Assert.That(itemArray[8].GetType(), Is.EqualTo(typeof(DateTime)));
+            Assert.That(itemArray[8], Is.EqualTo(new DateTime(2008, 5, 1, 10, 34, 42)));
         }
 
+        [Test]
+        public void TestParseTreatMissingFieldsAsNullSetToTrue()
+        {
+            var csv =
+                @"header1,header2,header3
+                value1,value2,value3
+                value1,value2,value3
+                value1,value2";
 
+            var result = Csv.Parse(new ParseInput()
+            {
+                ColumnSpecifications = new ColumnSpecification[0],
+                Delimiter = ",",
+                Csv = csv
+            }, new ParseOption() { ContainsHeaderRow = true, CultureInfo = "fi-FI", TreatMissingFieldsAsNulls = true });
+            var resultJson = (JArray)result.ToJson();
+            Assert.That(resultJson[2].Value<string>("header3"), Is.EqualTo(null));
+
+            var resultXml = result.ToXml();
+            Assert.That(resultXml, Does.Contain("<header3 />"));
+
+            var resultData = result.Data;
+            var nullItem = resultData[2][2];
+
+            Assert.That(nullItem, Is.EqualTo(null));
+        }
+
+        [Test]
+        public void TestParseTreatMissingFieldsAsNullSetToFalse()
+        {
+            Assert.Throws<CsvHelper.MissingFieldException>(
+                delegate
+                {
+                    var csv =
+                      @"header1,header2,header3
+                        value1,value2,value3
+                        value1,value2,value3
+                        value1,value2";
+
+                    var result = Csv.Parse(new ParseInput()
+                    {
+                        ColumnSpecifications = new ColumnSpecification[0],
+                        Delimiter = ",",
+                        Csv = csv
+                    }, new ParseOption() { ContainsHeaderRow = true, CultureInfo = "fi-FI", TreatMissingFieldsAsNulls = false });
+                });
+        }
+
+        [Test]
+        public void TestParseTreatMissingFieldsAsNullDefaultValue()
+        {
+            var options = new ParseOption();
+
+            Assert.That(options.TreatMissingFieldsAsNulls, Is.EqualTo(false));
+        }
 
         [Test]
         public void TestWriteFromListTable()
@@ -170,7 +225,6 @@ year;car;mark;price
 100;Dilantin;Melanie;1.1.2000 0.00.00
 ");
         }
-
 
         [Test]
         public void TestWriteFromJson()
@@ -208,7 +262,6 @@ null;replacedvalue
                 @"foo;bar
 "" Normally I would have quotes "";I would not
 ");
-
 
             var result1 = Csv.Create(new CreateInput() { InputType = CreateInputType.Json, Delimiter = ";", Json = json }, new CreateOption() { NeverAddQuotesAroundValues = true });
             Assert.AreEqual(result1.Csv,
@@ -252,10 +305,11 @@ null;replacedvalue
 0.1;1.00;0.000000000000000000000000000000000000000000000000000000001
 ");
         }
+
         [Test]
         public void ParseAndWriteShouldUseSeparateCultures()
         {
-            var csv = 
+            var csv =
 @"First; Second; Number; Date
 Foo; bar; 100; 2000-01-01";
 
@@ -270,7 +324,7 @@ Foo; bar; 100; 2000-01-01";
                 },
                 Delimiter = ";",
                 Csv = csv
-            }, new ParseOption() { ContainsHeaderRow = true, CultureInfo = "en-us"});
+            }, new ParseOption() { ContainsHeaderRow = true, CultureInfo = "en-us" });
 
             var result = Csv.Create(new CreateInput() { InputType = CreateInputType.List, Delimiter = ";", Data = parseResult.Data, Headers = parseResult.Headers }, new CreateOption() { CultureInfo = "fi-FI" });
 
@@ -302,7 +356,6 @@ year of the z;car;mark;price
             Assert.AreEqual(resultXml, "<year of the z>");
             Assert.AreEqual(resultJArray[0].price.ToString(), "2,34");
         }
-
 
         [Test]
         public void TestParseRowsWithAutomaticHeadersWhiteSpaceRemovalGiven()
@@ -349,4 +402,3 @@ year of the z;car;mark;price
 
     }
 }
-

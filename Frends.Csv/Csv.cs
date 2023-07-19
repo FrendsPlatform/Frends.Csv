@@ -14,8 +14,6 @@ namespace Frends.Csv
 {
     public class Csv
     {
-
-
         /// <summary>
         /// Parse string csv content to a object. See https://github.com/FrendsPlatform/Frends.Csv
         /// </summary>
@@ -48,6 +46,23 @@ namespace Frends.Csv
                 };
             }
            
+            var configuration = new CsvConfiguration(new CultureInfo(option.CultureInfo))
+            {
+                HasHeaderRecord = option.ContainsHeaderRow,
+                Delimiter = input.Delimiter,
+                TrimOptions = option.TrimOutput ? TrimOptions.None : TrimOptions.Trim,
+                IgnoreBlankLines = option.SkipEmptyRows
+            };
+
+            // Setting the MissingFieldFound -delegate property of configuration to null when
+            // option.TreatMissingFieldsAsNulls is set to true for returning null values for missing fields.
+            // Otherwise the default setting which throws a MissingFieldException is used
+
+            if (option.TreatMissingFieldsAsNulls)
+            {
+                configuration.MissingFieldFound = null;
+            }
+
             using (TextReader sr = new StringReader(input.Csv))
             {
                 //Read rows before passing textreader to csvreader for so that header row would be in the correct place
@@ -59,9 +74,9 @@ namespace Frends.Csv
                 using (var csvReader = new CsvReader(sr, configuration))
                 {
                     if (option.ContainsHeaderRow)
-                    { 
-                       csvReader.Read(); 
-                       csvReader.ReadHeader();
+                    {
+                        csvReader.Read();
+                        csvReader.ReadHeader();
                     }
                     var resultData = new List<List<object>>();
                     var headers = new List<string>();
@@ -97,8 +112,6 @@ namespace Frends.Csv
                         {
                             headers = csvReader.HeaderRecord.Select(x => x.Replace(" ", option.ReplaceHeaderWhitespaceWith)).ToList();
                         }
-
-                       
 
                         while (csvReader.Read())
                         {
@@ -163,6 +176,7 @@ namespace Frends.Csv
                 case CreateInputType.List:
                     csv = ListToCsvString(input.Data, input.Headers, config, option);
                     break;
+
                 case CreateInputType.Json:
                     csv = JsonToCsvString(input.Json, config, option);
                     break;
