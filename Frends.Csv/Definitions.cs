@@ -6,7 +6,6 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Xml;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Formatting = Newtonsoft.Json.Formatting;
 
@@ -164,6 +163,18 @@ namespace Frends.Csv
         /// </summary>
         [DefaultValue("false")]
         public bool TreatMissingFieldsAsNulls { get; set; } = false;
+        /// <summary>
+        /// A flag to let the reader know if reference should be ignored.
+        /// </summary>
+        [DefaultValue("false")]
+        public bool IgnoreReferences { get; set; } = false;
+
+        /// <summary>
+        /// A flag to let the reader know if quotes should be ignored.
+        /// </summary>
+        [DefaultValue("false")]
+        public bool IgnoreQuotes { get; set; } = false;
+
     }
 
     public class ParseResult
