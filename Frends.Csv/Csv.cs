@@ -154,13 +154,19 @@ namespace Frends.Csv
                 HasHeaderRecord = option.IncludeHeaderRow
             };
 
+            if (option.ForceQuotesAroundValues)
+            {
+                config.ShouldQuote = (field) => true;
+            }
+            
             if (option.NeverAddQuotesAroundValues)
             {
                 config.Mode = CsvMode.NoEscape;
                 // if IgnoreQuotes is true, seems like ShouldQuote function has to return false in all cases
                 // if IgnoreQuotes is false ShouldQuote can't have any implementation otherwise it will overwrite IgnoreQuotes statement ( might turn it on again)
-                config.ShouldQuote = (field) => (!option.NeverAddQuotesAroundValues);
+                config.ShouldQuote = (field) => false;
             }
+
             var csv = string.Empty;
 
             switch (input.InputType)

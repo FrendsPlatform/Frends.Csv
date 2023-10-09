@@ -65,13 +65,19 @@ namespace Frends.Csv
         /// If set true csv's fields are never put in quotes
         /// </summary>
         [DefaultValue("false")]
-        public bool NeverAddQuotesAroundValues { get; set; }
+        public bool NeverAddQuotesAroundValues { get; set; } = false;
 
         /// <summary>
         /// Input's null values will be replaced with this value
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")]
         public string ReplaceNullsWith { get; set; }
+
+        /// <summary>
+        /// Force quotes to all values
+        /// </summary>
+        [DefaultValue("false")]
+        public bool ForceQuotesAroundValues { get; set; } = false;
     }
 
     public class CreateResult
@@ -163,6 +169,7 @@ namespace Frends.Csv
         /// </summary>
         [DefaultValue("false")]
         public bool TreatMissingFieldsAsNulls { get; set; } = false;
+
         /// <summary>
         /// A flag to let the reader know if reference should be ignored.
         /// </summary>
@@ -174,6 +181,8 @@ namespace Frends.Csv
         /// </summary>
         [DefaultValue("false")]
         public bool IgnoreQuotes { get; set; } = false;
+
+
 
     }
 

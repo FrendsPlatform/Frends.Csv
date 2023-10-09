@@ -215,15 +215,15 @@ year;car;mark;price
                 new List<object>() {100, "Dilantin", "Melanie", date}
             };
 
-            var result = Csv.Create(new CreateInput() { InputType = CreateInputType.List, Delimiter = ";", Data = data, Headers = headers}, new CreateOption() { CultureInfo = "fi-FI" });
-            Assert.AreEqual(result.Csv,
+            var result = Csv.Create(new CreateInput() { InputType = CreateInputType.List, Delimiter = ";", Data = data, Headers = headers}, new CreateOption() { CultureInfo = "fi-FI", ForceQuotesAroundValues = false });
+            Assert.AreEqual(
 @"Dosage;Drug;Patient;Date
 25;Indocin;David;1.1.2000 0.00.00
 50;Enebrel;Sam;1.1.2000 0.00.00
 10;Hydralazine;Christoff;1.1.2000 0.00.00
 21;""Combiv;ent"";Janet;1.1.2000 0.00.00
 100;Dilantin;Melanie;1.1.2000 0.00.00
-");
+", result.Csv);
         }
 
         [Test]
@@ -231,12 +231,12 @@ year;car;mark;price
         {
             var json = @"[{""cool"":""nice"", ""what"": ""no""}, {""cool"":""not"", ""what"": ""yes""}, {""cool"":""maybe"", ""what"": ""never""}]";
             var result = Csv.Create(new CreateInput() { InputType = CreateInputType.Json, Delimiter = ";", Json = json}, new CreateOption());
-            Assert.AreEqual(result.Csv,
+            Assert.AreEqual(
 @"cool;what
 nice;no
 not;yes
 maybe;never
-");
+", result.Csv);
         }
 
         [Test]
@@ -244,10 +244,21 @@ maybe;never
         {
             var json = @"[{""ShouldStayNull"":""null"", ""ShouldBeReplaced"": null}]";
             var result = Csv.Create(new CreateInput() { InputType = CreateInputType.Json, Delimiter = ";", Json = json }, new CreateOption() { ReplaceNullsWith = "replacedvalue" });
-            Assert.AreEqual(result.Csv,
+            Assert.AreEqual(
 @"ShouldStayNull;ShouldBeReplaced
 null;replacedvalue
-");
+", result.Csv);
+        }
+
+        [Test]
+        public void TestInputValueWithForceQuotes()
+        {
+            var json = @"[{""ShouldStayNull"":""null"", ""ShouldBeReplaced"": null}]";
+            var result = Csv.Create(new CreateInput() { InputType = CreateInputType.Json, Delimiter = ";", Json = json }, new CreateOption() { ForceQuotesAroundValues = true });
+            Assert.AreEqual(
+@"""ShouldStayNull"";""ShouldBeReplaced""
+""null"";""""
+", result.Csv);
         }
 
         [Test]
@@ -257,24 +268,17 @@ null;replacedvalue
 ""foo"" : "" Normally I would have quotes "",
 ""bar"" : ""I would not""
 }]";
-            var result2 = Csv.Create(new CreateInput() { InputType = CreateInputType.Json, Delimiter = ";", Json = json }, new CreateOption() { NeverAddQuotesAroundValues = false });
-            Assert.AreEqual(result2.Csv,
+            var result2 = Csv.Create(new CreateInput() { InputType = CreateInputType.Json, Delimiter = ";", Json = json }, new CreateOption() { ForceQuotesAroundValues = false, NeverAddQuotesAroundValues = false });
+            Assert.AreEqual(
                 @"foo;bar
 "" Normally I would have quotes "";I would not
-");
+", result2.Csv);
 
             var result1 = Csv.Create(new CreateInput() { InputType = CreateInputType.Json, Delimiter = ";", Json = json }, new CreateOption() { NeverAddQuotesAroundValues = true });
-            Assert.AreEqual(result1.Csv,
+            Assert.AreEqual(
                 @"foo;bar
  Normally I would have quotes ;I would not
-");
-
-
-      
-
-
-
-
+", result1.Csv);
         }
 
         [Test]
@@ -285,10 +289,10 @@ null;replacedvalue
 ""string"" : ""foo""
 }]";
             var result = Csv.Create(new CreateInput() { InputType = CreateInputType.Json, Delimiter = ";", Json = json }, new CreateOption() { });
-            Assert.AreEqual(result.Csv,
+            Assert.AreEqual(
 @"datetime;string
 2018-11-22T10:30:55;foo
-");
+", result.Csv);
         }
 
         [Test]
@@ -300,10 +304,10 @@ null;replacedvalue
 ""baz"" : 0.000000000000000000000000000000000000000000000000000000001
 }]";
             var result = Csv.Create(new CreateInput() { InputType = CreateInputType.Json, Delimiter = ";", Json = json }, new CreateOption() { });
-            Assert.AreEqual(result.Csv,
+            Assert.AreEqual(
  @"foo;bar;baz
 0.1;1.00;0.000000000000000000000000000000000000000000000000000000001
-");
+", result.Csv);
         }
 
         [Test]
@@ -328,10 +332,10 @@ Foo; bar; 100; 2000-01-01";
 
             var result = Csv.Create(new CreateInput() { InputType = CreateInputType.List, Delimiter = ";", Data = parseResult.Data, Headers = parseResult.Headers }, new CreateOption() { CultureInfo = "fi-FI" });
 
-            Assert.AreEqual(result.Csv, 
+            Assert.AreEqual( 
                 @"First;Second;Number;Date
 Foo;"" bar"";100;1.1.2000 0.00.00
-");
+", result.Csv);
         }
 
         [Test]
