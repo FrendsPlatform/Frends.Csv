@@ -26,10 +26,10 @@ year;car;mark;price
             dynamic resultJArray = result.ToJson();
             var resultXml = result.ToXml();
             var resultData = result.Data;
-            Assert.AreEqual(resultData.Count, 2);
-            Assert.AreEqual(resultJArray.Count, 2);
+            Assert.AreEqual(2, resultData.Count);
+            Assert.AreEqual(2, resultJArray.Count);
             Assert.IsTrue(resultXml.Contains("<year>2000</year>"));
-            Assert.AreEqual(resultJArray[0].price.ToString(), "2,34");
+            Assert.AreEqual("2,34", resultJArray[0].price.ToString());
         }
 
         [Test]
@@ -53,10 +53,10 @@ year;car;mark;price
             var resultJArray = result.ToJson() as JArray;
             var resultXml = result.ToXml();
             var resultData = result.Data;
-            Assert.AreEqual(resultData.Count, 2);
-            Assert.AreEqual(resultJArray.Count, 2);
+            Assert.AreEqual(2, resultData.Count);
+            Assert.AreEqual(2, resultJArray.Count);
             Assert.IsTrue(resultXml.Contains("<Year>2000</Year>"));
-            Assert.AreEqual(resultJArray[0]["Price"].Value<decimal>(), 2.34);
+            Assert.AreEqual(2.34, resultJArray[0]["Price"].Value<decimal>());
         }
 
         [Test]
@@ -75,10 +75,10 @@ year;car;mark;price
             var resultJArray = result.ToJson() as JArray;
             var resultXml = result.ToXml();
             var resultData = result.Data;
-            Assert.AreEqual(resultData.Count, 2);
-            Assert.AreEqual(resultJArray.Count, 2);
+            Assert.AreEqual(2, resultData.Count);
+            Assert.AreEqual(2, resultJArray.Count);
             Assert.IsTrue(resultXml.Contains("<0>2000</0>"));
-            Assert.AreEqual(resultJArray[0]["3"].Value<string>(), "2,34");
+            Assert.AreEqual("2,34", resultJArray[0]["3"].Value<string>());
         }
 
         [Test]
@@ -106,37 +106,37 @@ year;car;mark;price
                 Csv = csv
             }, new ParseOption() { ContainsHeaderRow = true, CultureInfo = "fi-FI", IgnoreReferences = true });
             var resultJson = (JArray) result.ToJson();
-            Assert.AreEqual(resultJson[0]["Long"].Value<long>(), 4294967296);
+            Assert.AreEqual(4294967296, resultJson[0]["Long"].Value<long>());
             var resultXml = result.ToXml();
             Assert.IsTrue(resultXml.Contains("<DateTime2>1.5.2008 10.34.42</DateTime2>"));
             var resultData = result.Data;
             var itemArray = resultData[0];
-            Assert.AreEqual(itemArray[0].GetType(), typeof(int));
-            Assert.AreEqual(itemArray[0], 1997);
+            Assert.AreEqual(typeof(int), itemArray[0].GetType());
+            Assert.AreEqual(1997, itemArray[0]);
 
-            Assert.AreEqual(itemArray[1].GetType(), typeof(string));
-            Assert.AreEqual(itemArray[1], "Fo;rd");
+            Assert.AreEqual(typeof(string), itemArray[1].GetType());
+            Assert.AreEqual("Fo;rd", itemArray[1]);
 
-            Assert.AreEqual(itemArray[2].GetType(), typeof(decimal));
-            Assert.AreEqual(itemArray[2], 2.34d);
+            Assert.AreEqual(typeof(decimal), itemArray[2].GetType());
+            Assert.AreEqual(2.34d, itemArray[2]);
 
-            Assert.AreEqual(itemArray[3].GetType(), typeof(bool));
-            Assert.AreEqual(itemArray[3], true);
+            Assert.AreEqual(typeof(bool), itemArray[3].GetType());
+            Assert.AreEqual(true, itemArray[3]);
 
-            Assert.AreEqual(itemArray[4].GetType(), typeof(bool));
-            Assert.AreEqual(itemArray[4], true);
+            Assert.AreEqual(typeof(bool), itemArray[4].GetType());
+            Assert.AreEqual(true, itemArray[4]);
 
-            Assert.AreEqual(itemArray[5].GetType(), typeof(long));
-            Assert.AreEqual(itemArray[5], 4294967296);
+            Assert.AreEqual(typeof(long), itemArray[5].GetType());
+            Assert.AreEqual(4294967296, itemArray[5]);
 
-            Assert.AreEqual(itemArray[6].GetType(), typeof(char));
-            Assert.AreEqual(itemArray[6], 'f');
+            Assert.AreEqual(typeof(char), itemArray[6].GetType());
+            Assert.AreEqual('f', itemArray[6]);
 
-            Assert.AreEqual(itemArray[7].GetType(), typeof(DateTime));
-            Assert.AreEqual(itemArray[7], new DateTime(2008, 9, 15));
+            Assert.AreEqual(typeof(DateTime), itemArray[7].GetType());
+            Assert.AreEqual(new DateTime(2008, 9, 15), itemArray[7]);
 
-            Assert.That(itemArray[8].GetType(), Is.EqualTo(typeof(DateTime)));
-            Assert.That(itemArray[8], Is.EqualTo(new DateTime(2008, 5, 1, 10, 34, 42)));
+            Assert.AreEqual(typeof(DateTime), itemArray[8].GetType());
+            Assert.AreEqual(new DateTime(2008, 5, 1, 10, 34, 42), itemArray[8]);
         }
 
         [Test]
@@ -155,7 +155,7 @@ year;car;mark;price
                 Csv = csv
             }, new ParseOption() { ContainsHeaderRow = true, CultureInfo = "fi-FI", TreatMissingFieldsAsNulls = true });
             var resultJson = (JArray)result.ToJson();
-            Assert.AreEqual(resultJson[2].Value<string>("header3"), null);
+            Assert.AreEqual(null, resultJson[2].Value<string>("header3"));
 
             var resultXml = result.ToXml();
             Assert.IsTrue(resultXml.Contains("<header3 />"));
@@ -163,7 +163,7 @@ year;car;mark;price
             var resultData = result.Data;
             var nullItem = resultData[2][2];
 
-            Assert.AreEqual(nullItem, null);
+            Assert.AreEqual(null, nullItem);
         }
 
         [Test]
@@ -192,7 +192,7 @@ year;car;mark;price
         {
             var options = new ParseOption();
 
-            Assert.AreEqual(options.TreatMissingFieldsAsNulls, false);
+            Assert.AreEqual(false, options.TreatMissingFieldsAsNulls);
         }
 
         [Test]
@@ -355,10 +355,10 @@ year of the z;car;mark;price
             dynamic resultJArray = result.ToJson();
             var resultXml = result.ToXml();
             var resultData = result.Data;
-            Assert.AreEqual(resultData.Count, 2);
-            Assert.AreEqual(resultJArray.Count, 2);
+            Assert.AreEqual(2, resultData.Count);
+            Assert.AreEqual(2, resultJArray.Count);
             Assert.IsTrue(resultXml.Contains("<year of the z>"));
-            Assert.AreEqual(resultJArray[0].price.ToString(), "2,34");
+            Assert.AreEqual("2,34", resultJArray[0].price.ToString());
         }
 
         [Test]
@@ -378,10 +378,10 @@ year of the z;car;mark;price
             dynamic resultJArray = result.ToJson();
             var resultXml = result.ToXml();
             var resultData = result.Data;
-            Assert.AreEqual(resultData.Count, 2);
-            Assert.AreEqual(resultJArray.Count, 2);
+            Assert.AreEqual(2, resultData.Count);
+            Assert.AreEqual(2, resultJArray.Count);
             Assert.IsTrue(resultXml.Contains("<year_of_the_z>"));
-            Assert.AreEqual(resultJArray[0].price.ToString(), "2,34");
+            Assert.AreEqual("2,34", resultJArray[0].price.ToString());
         }
 
         [Test]
@@ -398,10 +398,10 @@ year of the z;car;mark;price
             dynamic resultJArray = result.ToJson();
             var resultXml = result.ToXml();
             var resultData = result.Data;
-            Assert.AreEqual(resultData.Count, 2);
-            Assert.AreEqual(resultJArray.Count, 2);
+            Assert.AreEqual(2, resultData.Count);
+            Assert.AreEqual(2, resultJArray.Count);
             Assert.IsTrue(resultXml.Contains("<year>2000</year>"));
-            Assert.AreEqual(resultJArray[0].price.ToString(), "2,34");
+            Assert.AreEqual("2,34", resultJArray[0].price.ToString());
         }
 
     }
