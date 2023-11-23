@@ -28,7 +28,7 @@ namespace Frends.Csv
                 {
                     HasHeaderRecord = option.ContainsHeaderRow,
                     Delimiter = input.Delimiter,
-                    TrimOptions = option.TrimOutput ? TrimOptions.None : TrimOptions.Trim,
+                    TrimOptions = option.TrimOutput ? TrimOptions.Trim : TrimOptions.None,
                     IgnoreBlankLines = option.SkipEmptyRows,
                     IgnoreReferences = option.IgnoreReferences,
                     Mode = !option.IgnoreReferences && option.IgnoreQuotes ? CsvMode.NoEscape : CsvMode.Escape,
@@ -40,7 +40,7 @@ namespace Frends.Csv
                 {
                     HasHeaderRecord = option.ContainsHeaderRow,
                     Delimiter = input.Delimiter,
-                    TrimOptions = option.TrimOutput ? TrimOptions.None : TrimOptions.Trim,
+                    TrimOptions = option.TrimOutput ? TrimOptions.Trim : TrimOptions.None,
                     IgnoreBlankLines = option.SkipEmptyRows,
                     IgnoreReferences = option.IgnoreReferences
                 };

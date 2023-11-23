@@ -328,7 +328,7 @@ Foo; bar; 100; 2000-01-01";
                 },
                 Delimiter = ";",
                 Csv = csv
-            }, new ParseOption() { ContainsHeaderRow = true, CultureInfo = "en-us" });
+            }, new ParseOption() { ContainsHeaderRow = true, CultureInfo = "en-us", TrimOutput = false });
 
             var result = Csv.Create(new CreateInput() { InputType = CreateInputType.List, Delimiter = ";", Data = parseResult.Data, Headers = parseResult.Headers }, new CreateOption() { CultureInfo = "fi-FI" });
 
