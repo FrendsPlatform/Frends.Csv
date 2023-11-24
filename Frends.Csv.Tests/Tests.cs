@@ -155,7 +155,7 @@ year;car;mark;price
                 Csv = csv
             }, new ParseOption() { ContainsHeaderRow = true, CultureInfo = "fi-FI", TreatMissingFieldsAsNulls = true });
             var resultJson = (JArray)result.ToJson();
-            Assert.AreEqual(null, resultJson[2].Value<string>("header3"));
+            Assert.IsNull(resultJson[2].Value<string>("header3"));
 
             var resultXml = result.ToXml();
             Assert.IsTrue(resultXml.Contains("<header3 />"));
@@ -163,7 +163,7 @@ year;car;mark;price
             var resultData = result.Data;
             var nullItem = resultData[2][2];
 
-            Assert.AreEqual(null, nullItem);
+            Assert.IsNull(nullItem);
         }
 
         [Test]
@@ -192,7 +192,7 @@ year;car;mark;price
         {
             var options = new ParseOption();
 
-            Assert.AreEqual(false, options.TreatMissingFieldsAsNulls);
+            Assert.IsFalse(options.TreatMissingFieldsAsNulls);
         }
 
         [Test]
@@ -328,7 +328,7 @@ Foo; bar; 100; 2000-01-01";
                 },
                 Delimiter = ";",
                 Csv = csv
-            }, new ParseOption() { ContainsHeaderRow = true, CultureInfo = "en-us" });
+            }, new ParseOption() { ContainsHeaderRow = true, CultureInfo = "en-us", TrimOutput = false });
 
             var result = Csv.Create(new CreateInput() { InputType = CreateInputType.List, Delimiter = ";", Data = parseResult.Data, Headers = parseResult.Headers }, new CreateOption() { CultureInfo = "fi-FI" });
 
