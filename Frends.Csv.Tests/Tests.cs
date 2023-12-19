@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
@@ -28,6 +29,7 @@ year;car;mark;price
             var resultData = result.Data;
             Assert.AreEqual(2, resultData.Count);
             Assert.AreEqual(2, resultJArray.Count);
+            Assert.IsTrue(ValidateXml(resultXml));
             Assert.IsTrue(resultXml.Contains("<year>2000</year>"));
             Assert.AreEqual("2,34", resultJArray[0].price.ToString());
         }
@@ -55,6 +57,7 @@ year;car;mark;price
             var resultData = result.Data;
             Assert.AreEqual(2, resultData.Count);
             Assert.AreEqual(2, resultJArray.Count);
+            Assert.IsTrue(ValidateXml(resultXml));
             Assert.IsTrue(resultXml.Contains("<Year>2000</Year>"));
             Assert.AreEqual(2.34, resultJArray[0]["Price"].Value<decimal>());
         }
@@ -77,8 +80,9 @@ year;car;mark;price
             var resultData = result.Data;
             Assert.AreEqual(2, resultData.Count);
             Assert.AreEqual(2, resultJArray.Count);
-            Assert.IsTrue(resultXml.Contains("<0>2000</0>"));
-            Assert.AreEqual("2,34", resultJArray[0]["3"].Value<string>());
+            Assert.IsTrue(ValidateXml(resultXml));
+            Assert.IsTrue(resultXml.Contains("<Column1>2000</Column1>"));
+            Assert.AreEqual("2,34", resultJArray[0]["Column4"].Value<string>());
         }
 
         [Test]
@@ -108,6 +112,7 @@ year;car;mark;price
             var resultJson = (JArray) result.ToJson();
             Assert.AreEqual(4294967296, resultJson[0]["Long"].Value<long>());
             var resultXml = result.ToXml();
+            Assert.IsTrue(ValidateXml(resultXml));
             Assert.IsTrue(resultXml.Contains("<DateTime2>1.5.2008 10.34.42</DateTime2>"));
             var resultData = result.Data;
             var itemArray = resultData[0];
@@ -158,6 +163,7 @@ year;car;mark;price
             Assert.IsNull(resultJson[2].Value<string>("header3"));
 
             var resultXml = result.ToXml();
+            Assert.IsTrue(ValidateXml(resultXml));
             Assert.IsTrue(resultXml.Contains("<header3 />"));
 
             var resultData = result.Data;
@@ -357,7 +363,8 @@ year of the z;car;mark;price
             var resultData = result.Data;
             Assert.AreEqual(2, resultData.Count);
             Assert.AreEqual(2, resultJArray.Count);
-            Assert.IsTrue(resultXml.Contains("<year of the z>"));
+            Assert.IsTrue(ValidateXml(resultXml));
+            Assert.IsTrue(resultXml.Contains("<yearofthez>"));
             Assert.AreEqual("2,34", resultJArray[0].price.ToString());
         }
 
@@ -380,6 +387,7 @@ year of the z;car;mark;price
             var resultData = result.Data;
             Assert.AreEqual(2, resultData.Count);
             Assert.AreEqual(2, resultJArray.Count);
+            Assert.IsTrue(ValidateXml(resultXml));
             Assert.IsTrue(resultXml.Contains("<year_of_the_z>"));
             Assert.AreEqual("2,34", resultJArray[0].price.ToString());
         }
@@ -400,8 +408,16 @@ year of the z;car;mark;price
             var resultData = result.Data;
             Assert.AreEqual(2, resultData.Count);
             Assert.AreEqual(2, resultJArray.Count);
+            Assert.IsTrue(ValidateXml(resultXml));
             Assert.IsTrue(resultXml.Contains("<year>2000</year>"));
             Assert.AreEqual("2,34", resultJArray[0].price.ToString());
+        }
+
+        private static bool ValidateXml(string xml)
+        {
+            var doc = new XmlDocument();
+            doc.LoadXml(xml);
+            return true;
         }
 
     }
