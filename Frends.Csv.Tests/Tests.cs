@@ -413,6 +413,21 @@ year of the z;car;mark;price
             Assert.AreEqual("2,34", resultJArray[0].price.ToString());
         }
 
+        [Test]
+        public void TestReplaceEmptyAndWhitespaceHeader()
+        {
+            var csv = "first;; \nfirst;row;data\nsecond;row;data";
+            var result = Csv.Parse(new ParseInput()
+            {
+                ColumnSpecifications = new ColumnSpecification[0],
+                Delimiter = ";",
+                Csv = csv
+            }, new ParseOption() { ContainsHeaderRow = true, SkipRowsFromTop = 0, ReplaceHeaderWhitespaceWith = "empty" });
+
+            Assert.AreEqual("empty", result.Headers[1]);
+            Assert.AreEqual("empty", result.Headers[2]);
+        }
+
         private static bool ValidateXml(string xml)
         {
             var doc = new XmlDocument();
