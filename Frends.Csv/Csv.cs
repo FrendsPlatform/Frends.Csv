@@ -48,20 +48,16 @@ namespace Frends.Csv
 
             // Setting the MissingFieldFound -delegate property of configuration to null when
             // option.TreatMissingFieldsAsNulls is set to true for returning null values for missing fields.
-            // Otherwise the default setting which throws a MissingFieldException is used
+            // Otherwise the default setting which throws a MissingFieldException is used.
 
             if (option.TreatMissingFieldsAsNulls)
-            {
                 configuration.MissingFieldFound = null;
-            }
 
             using (TextReader sr = new StringReader(input.Csv))
             {
-                //Read rows before passing textreader to csvreader for so that header row would be in the correct place
+                // Read rows before passing textreader to csvreader for so that header row would be in the correct place.
                 for (var i = 0; i < option.SkipRowsFromTop; i++)
-                {
                     sr.ReadLine();
-                }
 
                 using (var csvReader = new CsvReader(sr, configuration))
                 {
@@ -97,13 +93,9 @@ namespace Frends.Csv
                     else if (option.ContainsHeaderRow && !input.ColumnSpecifications.Any())
                     {
                         if (string.Equals(option.ReplaceHeaderWhitespaceWith, " "))
-                        {
                             headers = csvReader.HeaderRecord.ToList();
-                        }
                         else
-                        {
                             headers = csvReader.HeaderRecord.Select(x => x.Replace(" ", option.ReplaceHeaderWhitespaceWith)).ToList();
-                        }
 
                         while (csvReader.Read())
                         {
@@ -119,11 +111,11 @@ namespace Frends.Csv
                     else if (!option.ContainsHeaderRow && !input.ColumnSpecifications.Any())
                     {
                         if (!csvReader.Read())
-                        {
                             throw new ArgumentException("Csv input can not be empty");
-                        }
 
-                        headers = csvReader.Parser.Record.Select((x, index) => index.ToString()).ToList();
+                        for (int i = 0; i < csvReader.Parser.Record.Length; i++)
+                            headers.Add($"Column{i + 1}");
+
                         resultData.Add(new List<object>(csvReader.Parser.Record));
                         while (csvReader.Read())
                         {
@@ -155,15 +147,13 @@ namespace Frends.Csv
             };
 
             if (option.ForceQuotesAroundValues)
-            {
                 config.ShouldQuote = (field) => true;
-            }
             
             if (option.NeverAddQuotesAroundValues)
             {
                 config.Mode = CsvMode.NoEscape;
-                // if IgnoreQuotes is true, seems like ShouldQuote function has to return false in all cases
-                // if IgnoreQuotes is false ShouldQuote can't have any implementation otherwise it will overwrite IgnoreQuotes statement ( might turn it on again)
+                // If IgnoreQuotes is true, seems like ShouldQuote function has to return false in all cases.
+                // If IgnoreQuotes is false ShouldQuote can't have any implementation otherwise it will overwrite IgnoreQuotes statement (might turn it on again).
                 config.ShouldQuote = (field) => false;
             }
 
@@ -187,22 +177,18 @@ namespace Frends.Csv
             using (var csvString = new StringWriter())
             using (var csv = new CsvWriter(csvString, config))
             {
-                //Write the header row
+                // Write the header row.
                 if (config.HasHeaderRecord && inputData.Any())
                 {
                     foreach (var column in inputHeaders)
-                    {
                         csv.WriteField(column);
-                    }
                     csv.NextRecord();
                 }
 
                 foreach (var row in inputData)
                 {
                     foreach (var cell in row)
-                    {
                         csv.WriteField(cell ?? option.ReplaceNullsWith);
-                    }
                     csv.NextRecord();
                 }
                 return csvString.ToString();
@@ -216,22 +202,18 @@ namespace Frends.Csv
             using (var csvString = new StringWriter())
             using (var csv = new CsvWriter(csvString, config))
             {
-                //Write the header row
+                // Write the header row.
                 if (config.HasHeaderRecord && data.Any())
                 {
                     foreach (var column in data.First().Keys)
-                    {
                         csv.WriteField(column);
-                    }
                     csv.NextRecord();
                 }
 
                 foreach (var row in data)
                 {
                     foreach (var cell in row)
-                    {
                         csv.WriteField(cell.Value ?? option.ReplaceNullsWith);
-                    }
                     csv.NextRecord();
                 }
                 return csvString.ToString();

@@ -16,15 +16,18 @@ namespace Frends.Csv
     public enum CreateInputType
     { List, Json }
 
+    /// <summary>
+    /// Input-class for Create Task's parameters.
+    /// </summary>
     public class CreateInput
     {
         /// <summary>
-        /// Select input type to show correct editor for input
+        /// Select input type to show correct editor for input.
         /// </summary>
         public CreateInputType InputType { get; set; }
 
         /// <summary>
-        /// Json string to write to CSV. Must be an array of objects
+        /// Json string to write to CSV. Must be an array of objects.
         /// </summary>
         [DefaultValue("[{\"Column1\": \"row1Val1\",\"Column2\": \"row1Val2\"},{\"Column1\": \"row2Val1\",\"Column2\": \"row2Val2\"}]")]
         [UIHint(nameof(InputType), "", CreateInputType.Json)]
@@ -32,22 +35,28 @@ namespace Frends.Csv
         public string Json { get; set; }
 
         /// <summary>
-        /// Headers for the data. Need to be in the same order as the underlying data
+        /// Headers for the data. Need to be in the same order as the underlying data.
         /// </summary>
         [UIHint(nameof(InputType), "", CreateInputType.List)]
         public List<string> Headers { get; set; }
 
         /// <summary>
-        /// Data to write to the csv string. Needs to be of type List&lt;List&lt;object&gt;&gt;. The order of the nested list objects need to be in the same order as the header list.
+        /// Data to write to the CSV string. Needs to be of type List&lt;List&lt;object&gt;&gt;. The order of the nested list objects need to be in the same order as the header list.
         /// </summary>
         [UIHint(nameof(InputType), "", CreateInputType.List)]
         [DisplayFormat(DataFormatString = "Expression")]
         public List<List<object>> Data { get; set; }
 
+        /// <summary>
+        /// CSV delimiter for parsing input CSV string.
+        /// </summary>
         [DefaultValue("\";\"")]
         public string Delimiter { get; set; }
     }
 
+    /// <summary>
+    /// Options for Create Task.
+    /// </summary>
     public class CreateOption
     {
         /// <summary>
@@ -57,29 +66,32 @@ namespace Frends.Csv
         public bool IncludeHeaderRow { get; set; } = true;
 
         /// <summary>
-        /// Specify the culture info to be used when creating csv. If this is left empty InvariantCulture will be used. List of cultures: https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx Use the Language Culture Name.
+        /// Specify the culture info to be used when creating CSV. If this is left empty InvariantCulture will be used. List of cultures: https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx Use the Language Culture Name.
         /// </summary>
         public string CultureInfo { get; set; } = "";
 
         /// <summary>
-        /// If set true csv's fields are never put in quotes
+        /// If set true CSV's fields are never put in quotes.
         /// </summary>
         [DefaultValue("false")]
         public bool NeverAddQuotesAroundValues { get; set; } = false;
 
         /// <summary>
-        /// Input's null values will be replaced with this value
+        /// Input's null values will be replaced with this value.
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")]
         public string ReplaceNullsWith { get; set; }
 
         /// <summary>
-        /// Force quotes to all values
+        /// Force quotes to all values.
         /// </summary>
         [DefaultValue("false")]
         public bool ForceQuotesAroundValues { get; set; } = false;
     }
 
+    /// <summary>
+    /// Result-class for Create Task.
+    /// </summary>
     public class CreateResult
     {
         public CreateResult(string csv)
@@ -87,36 +99,48 @@ namespace Frends.Csv
             Csv = csv;
         }
 
+        /// <summary>
+        /// CSV string created by the Task.
+        /// </summary>
         public string Csv { get; }
     }
 
+    /// <summary>
+    /// Input-class for Parse Task's parameters.
+    /// </summary>
     public class ParseInput
     {
         /// <summary>
-        /// Input csv string
+        /// Input CSV string.
         /// </summary>
         [DisplayFormat(DataFormatString = "Text")]
         public string Csv { get; set; }
 
         /// <summary>
-        /// The separator used in the csv string
+        /// The separator used in the CSV string.
         /// </summary>
         [DefaultValue("\";\"")]
         public string Delimiter { get; set; }
 
         /// <summary>
-        /// You can map columns to specific types. The order of the columns are used for mapping, that means that the ColumnSpecification elements need to be created in the same order as the CSV fields
+        /// You can map columns to specific types. The order of the columns are used for mapping, that means that the ColumnSpecification elements need to be created in the same order as the CSV fields.
         /// </summary>
         public ColumnSpecification[] ColumnSpecifications { get; set; }
     }
 
+    /// <summary>
+    /// Enums for Column data types.
+    /// </summary>
     public enum ColumnType
     { String, Int, Long, Decimal, Double, Boolean, DateTime, Char }
 
+    /// <summary>
+    /// Class for specifying column types.
+    /// </summary>
     public class ColumnSpecification
     {
         /// <summary>
-        /// Name of the resulting column
+        /// Name of the resulting column.
         /// </summary>
         public string Name { get; set; }
 
@@ -126,6 +150,9 @@ namespace Frends.Csv
         public ColumnType Type { get; set; }
     }
 
+    /// <summary>
+    /// Options for Parse Task.
+    /// </summary>
     public class ParseOption
     {
         /// <summary>
@@ -135,7 +162,7 @@ namespace Frends.Csv
         public bool ContainsHeaderRow { get; set; } = true;
 
         /// <summary>
-        /// If the csv string contains metadata before the header row you can set this value to ignore a specific amount of rows from the beginning of the csv string.
+        /// If the CSV string contains metadata before the header row you can set this value to ignore a specific amount of rows from the beginning of the CSV string.
         /// </summary>
         public int SkipRowsFromTop { get; set; }
 
@@ -160,12 +187,12 @@ namespace Frends.Csv
 
         /// <summary>
         /// The culture info to read/write the entries with, e.g. for decimal separators. InvariantCulture will be used by default. See list of cultures here: https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx; use the Language Culture Name.
-        /// NOTE: Due to an issue with the CsvHelpers library, all CSV tasks will use the culture info setting of the first CSV task in the process; you cannot use different cultures for reading and parsing CSV files in the same process.|
+        /// NOTE: Due to an issue with the CsvHelpers library, all CSV tasks will use the culture info setting of the first CSV task in the process; you cannot use different cultures for reading and parsing CSV files in the same process.
         /// </summary>
         public string CultureInfo { get; set; } = "";
 
         /// <summary>
-        /// The flag for reader to treat missing fields as nulls instead of throwing a MissingFieldsException
+        /// The flag for reader to treat missing fields as nulls instead of throwing a MissingFieldsException.
         /// </summary>
         [DefaultValue("false")]
         public bool TreatMissingFieldsAsNulls { get; set; } = false;
@@ -181,11 +208,11 @@ namespace Frends.Csv
         /// </summary>
         [DefaultValue("false")]
         public bool IgnoreQuotes { get; set; } = false;
-
-
-
     }
 
+    /// <summary>
+    /// Result-class of Parse Task.
+    /// </summary>
     public class ParseResult
     {
         private readonly Lazy<object> _jToken;
@@ -216,7 +243,9 @@ namespace Frends.Csv
 
                         for (var i = 0; i < headers.Count; i++)
                         {
-                            writer.WriteElementString(headers[i], Convert.ToString(row[i], _culture));
+                            // XML node names cannot contain double quotes or whitespaces, so they need to be parsed away.
+                            string header = headers[i];
+                            writer.WriteElementString(header.Replace("\"", string.Empty).Replace(" ", string.Empty), Convert.ToString(row[i], _culture));
                         }
                         writer.WriteEndElement();
                     }
