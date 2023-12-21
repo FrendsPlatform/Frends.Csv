@@ -96,9 +96,7 @@ namespace Frends.Csv
                             headers = csvReader.HeaderRecord.ToList();
                         else
                             foreach (string header in csvReader.HeaderRecord)
-                                if (string.IsNullOrEmpty(header))
-                                    headers.Add(option.ReplaceHeaderWhitespaceWith);
-                                else if (string.IsNullOrWhiteSpace(header))
+                                if (string.IsNullOrEmpty(header) || string.IsNullOrWhiteSpace(header))
                                     headers.Add(option.ReplaceHeaderWhitespaceWith);
                                 else
                                     headers.Add(header.Replace(" ", option.ReplaceHeaderWhitespaceWith));
